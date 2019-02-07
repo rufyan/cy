@@ -1,5 +1,6 @@
 import React from 'react'
 import App, { Container } from 'next/app'
+import Page from '../components/Page'
 
 export default class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -16,12 +17,11 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props
 
     return (
-        <dl>
       <Container>
-        <Component {...pageProps} />
-        <p>test</p>
+        <Page>
+          <Component {...pageProps} />
+        </Page>
       </Container>
-      </dl>
     )
   }
 }

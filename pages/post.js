@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 import {withRouter} from 'next/router';
-import Layout from '../components/Layout';
+import Page from '../components/Page';
 import Grid from 'react-css-grid'
 
 
@@ -12,7 +12,6 @@ const Content = withRouter((props) => (
   ))
   
   const Items = ((props) => (
-      <Layout>
     <Grid width={600}>
       {props.items.map((item, i) => (
         <div key={i}>
@@ -20,7 +19,6 @@ const Content = withRouter((props) => (
         </div>
       ))}
     </Grid>
-      </Layout>
   ))
 
   Items.getInitialProps = async function() {

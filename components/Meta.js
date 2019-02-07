@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import '../scss/style.scss'
 
 const Meta = () => (
   <Head>

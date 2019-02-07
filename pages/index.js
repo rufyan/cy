@@ -1,7 +1,6 @@
 
 import Link from 'next/link'
 import fetch from 'isomorphic-unfetch'
-import Layout from '../components/Layout'
 
 const PostLink = (props) => (
   <li>
@@ -11,7 +10,7 @@ const PostLink = (props) => (
   </li>
 )
 const Index = (props) => (
-  <Layout>
+  <>
     <h1>My Blog</h1>
     <ul>
       <PostLink title="Hello Next.js" id="hello-nextjs"/>
@@ -29,7 +28,7 @@ const Index = (props) => (
         </li>
       ))}
     </ul>
-  </Layout>
+  </>
 )
 
 Index.getInitialProps = async function() {
