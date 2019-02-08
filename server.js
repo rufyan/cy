@@ -11,7 +11,7 @@ app.prepare()
  
  //get route and map to page, with route string mapped to query params
   server.get('/p/:id', (req, res) => {
-    const actualPage = '/post'
+    const actualPage = '/portfolio'
     const queryParams = { title: req.params.id } 
     app.render(req, res, actualPage, queryParams)
   })

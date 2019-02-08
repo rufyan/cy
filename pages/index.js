@@ -1,12 +1,14 @@
 
 import Link from 'next/link'
 import fetch from 'isomorphic-unfetch'
+import conf from '../config';
 
 const PostLink = (props) => (
   <li>
     <Link as={`/p/${props.id}`} href={`/post?title=${props.title}`}>
       <a>{props.title}</a>
     </Link>
+    
   </li>
 )
 const Index = (props) => (
@@ -25,6 +27,7 @@ const Index = (props) => (
           <Link as={`/p/${item.gsx$heading.$t}`} href={`/post?id=${item.gsx$heading.$t}`}>
             <a>{item.gsx$heading.$t}</a>
           </Link>
+            <img src={`${conf.path}/${item.gsx$image.$t}`} alt={item.gsx$heading.$t} />
         </li>
       ))}
     </ul>

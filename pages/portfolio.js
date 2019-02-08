@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import fetch from 'isomorphic-unfetch';
 import {withRouter} from 'next/router';
+import conf from '../config';
 
 
 const Content = withRouter((props) => (
@@ -11,15 +12,16 @@ const Content = withRouter((props) => (
   ))
   
 const Items = ((props) => (
-    <div className="grid">
+    <section className="items">
     <Head><title>Cyte - Por</title></Head>
-
+    
       {props.items.map((item, i) => (
-        <div key={i}>
+        <article key={i}>
             <p>{item.gsx$heading.$t}</p>
-        </div>
+            <img src={`${conf.path}/${item.gsx$image.$t}`} alt={item.gsx$heading.$t} />
+        </article>
       ))}
-    </div>
+    </section>
 ))
 
   Items.getInitialProps = async function() {

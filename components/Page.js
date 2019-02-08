@@ -5,7 +5,7 @@ import Meta from './Meta';
 class Page extends React.Component {
     render(){
         return (
-            <div>
+            <div className="wide row">
                 <Meta></Meta>
                 <Header></Header>
                 {this.props.children}
