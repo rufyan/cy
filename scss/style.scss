@@ -5,3 +5,9 @@ body{
 h1{font-size:3rem}
 
 nav{font-size: 2rem}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(400px,1fr));
+    grid-gap: 2rem;
+}

@@ -1,7 +1,6 @@
+import Head from 'next/head';
 import fetch from 'isomorphic-unfetch';
 import {withRouter} from 'next/router';
-import Page from '../components/Page';
-import Grid from 'react-css-grid'
 
 
 const Content = withRouter((props) => (
@@ -11,15 +10,17 @@ const Content = withRouter((props) => (
     </div>
   ))
   
-  const Items = ((props) => (
-    <Grid width={600}>
+const Items = ((props) => (
+    <div className="grid">
+    <Head><title>Cyte - Por</title></Head>
+
       {props.items.map((item, i) => (
         <div key={i}>
             <p>{item.gsx$heading.$t}</p>
         </div>
       ))}
-    </Grid>
-  ))
+    </div>
+))
 
   Items.getInitialProps = async function() {
     const res = await fetch('https://spreadsheets.google.com/feeds/list/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0/od6/public/values?alt=json')
