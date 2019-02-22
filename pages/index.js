@@ -11,7 +11,46 @@ const PostLink = (props) => (
     
   </li>
 )
-const Index = (props) => (
+let items = [];
+class Index extends React.Component {
+  constructor(props){
+    super(props)
+    items = props.items.filter((item) => (
+      item.gsx$islive.$t === "1"
+    ));
+    
+    const itemTypes = [...new Set(
+      items.map((item) => (
+        item.gsx$itemtype.$t 
+        )
+      )
+    )];
+
+    const titles = [...new Set(
+      items.map((item) => (
+        item.gsx$title.$t
+      ))
+    )]
+
+    this.state = {
+      items,
+      itemTypes,
+      titles
+    }
+  }
+
+  handleTitleFilter(value){
+    const filtered = items.filter((item) => (
+      item.gsx$title.$t === value
+      )
+    );
+    this.setState({
+      items : filtered
+    })
+  }
+
+  render(){
+  return(
   <>
     <h1>My Blog</h1>
     <ul>
@@ -19,11 +58,18 @@ const Index = (props) => (
       <PostLink title="Learn Next.js is awesome" id="awesome-nextjs"/>
       <PostLink title="Deploy apps with Zeit" id="Zeit-nextjs"/>
     </ul>
-
+    <p>Filter by title:</p>
     <ul>
-      {props.items.map((item, i) => (
+      {this.state.titles.map((item, i) =>(
         <li key={i}>
-        
+        <button onClick={() => {this.handleTitleFilter(item)}} key={i}>{item}</button>
+        </li>
+      ))}
+    </ul>
+    <ul>
+      {this.state.items.map((item, i) => (
+        <li key={i}>
+          <p>{item.gsx$title.$t}</p>
           <Link as={`/p/${item.gsx$heading.$t}`} href={`/post?id=${item.gsx$heading.$t}`}>
             <a>{item.gsx$heading.$t}</a>
           </Link>
@@ -32,7 +78,8 @@ const Index = (props) => (
       ))}
     </ul>
   </>
-)
+)}
+      }
 
 Index.getInitialProps = async function() {
   const res = await fetch('https://spreadsheets.google.com/feeds/list/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0/od6/public/values?alt=json')
