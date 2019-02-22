@@ -2,37 +2,19 @@ import Head from 'next/head';
 import fetch from 'isomorphic-unfetch';
 import {withRouter} from 'next/router';
 import conf from '../config';
+import Items from '../components/Items';
 
 
 const Content = withRouter((props) => (
     <div>
       <h1>{props.router.query.title}</h1>
       <p>This is the blog post content.</p>
+      <section className="items">
+      <Head><title>Cyte - Por</title></Head>
+      
+      <Items {...props}></Items>
+      </section>
     </div>
   ))
-  
-const Items = ((props) => (
-    <section className="items">
-    <Head><title>Cyte - Por</title></Head>
     
-      {props.items.map((item, i) => (
-        <article key={i}>
-            <p>{item.gsx$heading.$t}</p>
-            <img src={`${conf.path}/${item.gsx$image.$t}`} alt={item.gsx$heading.$t} />
-        </article>
-      ))}
-    </section>
-))
-
-  Items.getInitialProps = async function() {
-    const res = await fetch('https://spreadsheets.google.com/feeds/list/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0/od6/public/values?alt=json')
-    const data = await res.json()
-  
-    console.log(`Show data fetched. Count: ${data.feed.entry.length}`)
-
-    return {
-      items: data.feed.entry
-    }
-  }
-  
-  export default Items
+  export default Content
