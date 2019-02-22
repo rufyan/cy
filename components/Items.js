@@ -16,9 +16,16 @@ const PostLink = (props) => (
 class Items extends React.Component {
   constructor(props){
     super(props)
+    let type = ''
+    if(props.router){
+      type = props.router.query.title;
+    }
 
     this.state = {
       loading : 'initial',
+      filterByType : type,
+      filterByTitle : '',
+      sortByDate :'desc'
     }
   }
 
@@ -26,7 +33,6 @@ class Items extends React.Component {
     const data= fetch('https://spreadsheets.google.com/feeds/list/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0/od6/public/values?alt=json')
     .then(response => response.json());
     return data;
-
   }
 
   componentDidMount(){
@@ -37,7 +43,7 @@ class Items extends React.Component {
       items = res.feed.entry.filter((item) => (
         item.gsx$islive.$t === "1"
       ));
-      
+
       const itemTypes = [...new Set(
         items.map((item) => (
           item.gsx$itemtype.$t 
@@ -52,10 +58,9 @@ class Items extends React.Component {
       )];
 
       this.setState({
-        items,
         itemTypes,
         titles,
-        loading: 'false'
+        loading: 'false',
 
       });
     });
@@ -63,13 +68,37 @@ class Items extends React.Component {
   }
 
   handleTitleFilter(value){
-    const filtered = items.filter((item) => (
-      item.gsx$title.$t === value
-      )
-    );
     this.setState({
-      items : filtered
+      filterByTitle : value
     })
+  }
+
+  getFilteredItems(){
+    let filteredItems = items;
+    console.log('gfi', this.props.router)
+    //filter by type
+    if(this.state.filterByType){
+      if (this.props.router && this.props.router.query){
+        //item type route changed
+        filteredItems = filteredItems.filter((item) => (
+          item.gsx$itemtype.$t === this.props.router.query.title
+        ));
+      }else{
+      console.log('filtertpy', this.state.filterByType)
+      filteredItems = filteredItems.filter((item) => (
+        item.gsx$itemtype.$t === this.state.filterByType
+      ));
+      }
+    }
+
+    //filter by title
+    if(this.state.filterByTitle){
+      filteredItems = filteredItems.filter((item) => (
+        item.gsx$title.$t === this.state.filterByTitle
+        )
+      );
+    }
+    return filteredItems;
   }
 
   render(){
@@ -82,6 +111,7 @@ class Items extends React.Component {
     }
     
     //Only render data once loading is false
+    const filteredItems = this.getFilteredItems();
     return(
     <>
       <h1>Type</h1>
@@ -100,8 +130,9 @@ class Items extends React.Component {
         ))}
       </ul>
       <ul>
-        {this.state.items.map((item, i) => (
+        {filteredItems.map((item, i) => (
           <li key={i}>
+          <h2>{item.gsx$itemtype.$t}</h2>
             <p>{item.gsx$title.$t}</p>
             <Link as={`/p/${item.gsx$heading.$t}`} href={`/post?id=${item.gsx$heading.$t}`}>
               <a>{item.gsx$heading.$t}</a>

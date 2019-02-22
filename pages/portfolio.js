@@ -11,7 +11,7 @@ const Content = withRouter((props) => (
       <p>This is the blog post content.</p>
       <section className="items">
       <Head><title>Cyte - Por</title></Head>
-      
+      {console.log(props)}
       <Items {...props}></Items>
       </section>
     </div>
