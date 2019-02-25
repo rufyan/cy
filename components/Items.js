@@ -4,14 +4,6 @@ import Item from '../components/Item';
 
 let items = [];
 let type = '';
-const PostLink = (props) => (
-  <li>
-    <Link as={`/portfolio/${props.id}`} href={`/portfolio?title=${props.title}`}>
-      <a>{props.title}</a>
-    </Link>
-    
-  </li>
-)
 
 class Items extends React.Component {
   constructor(props){
@@ -172,40 +164,34 @@ class Items extends React.Component {
 
     return(
     <>
-      <ul>
-        {/* TODO: Put this in global nav */}
-        {this.state.itemTypes && (
-          this.state.itemTypes.map((item, i) => (
-            <PostLink title={item} id={item.replace(' ','-')} key={i}></PostLink>
-        )))}
-
-      </ul>
+    <div className="filter-holder">
+      <section>
       <p>Filter by title:</p>
-      <ul>
-      <li><button onClick={() => {this.handleTitleFilter("all")}}  className={"all" === this.state.filterByTitle ? 'active':''}>Show all</button></li>
+      <div className="span-col-4">
         {titles && (titles.map((item, i) =>(
-          <li key={i}>
+          
           <button onClick={() => {this.handleTitleFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
-          </li>
+          
         )))}
-      </ul>
-
+      </div>
+      <button onClick={() => {this.handleTitleFilter("all")}}  className={"all" === this.state.filterByTitle ? 'active':''}>Show all</button>
+      </section>
+      <section>
       <p>Filter by tags:</p>
-      <ul>
-        <li><button onClick={() => {this.handleTagFilter("all")}}  className={"all" === this.state.filterByTitle ? 'active':''}>Show all</button></li>
+      <div className="span-col-4">
         {tags && (tags.map((item, i) =>(
-          <li key={i}>
           <button onClick={() => {this.handleTagFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
-          </li>
         )))}
-      </ul>
-
-      <ul className="grid">
+      </div>
+      <button onClick={() => {this.handleTagFilter("all")}}  className={"all" === this.state.filterByTitle ? 'active':''}>Show all</button>
+      </section>
+      </div>
+      <section className="grid items">
         {filteredItems.map((item, i) =>  (
           <Item {...item} key={i}></Item>
           )
         )}
-      </ul>
+      </section>
     </>
   )
 }

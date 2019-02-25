@@ -20,33 +20,22 @@ const Header = ((props) => {
   console.log('p', props);
   return  (
     <nav>
-      <ul>
-        <li>
-          <Link href="/">
-            <a style={linkStyle}>Home</a>
+     <Link href="/">
+            <a className="logo">Charmaine Yabsley</a>
           </Link>
-
-        </li>
-         <li>
-          
-        </li>
-          <Link href="/portfolio">
-            <a style={linkStyle}>Por</a>
+     <ul>
+       <li>
+          <Link as={`/portfolio/Article`} href="/portfolio/Article">
+            <a>Articles</a>
           </Link>
-          <ul>
-          {props.itemTypes && (
-            props.itemTypes.map((item, i) => (
-              <NavLink title={item} id={item.replace(' ','-')} key={i}></NavLink>
-          )))}
-
-          </ul>
+          </li>
+           
         <li>
-          
+        <Link as={`/portfolio/Book`} href="/portfolio/Book">
+            <a>Books</a>
+          </Link>          
         </li>
       </ul>
-    {/* <Link href="/about">
-      <a style={linkStyle}>About</a>
-    </Link> */}
     </nav>
 )})
 
