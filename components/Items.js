@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
-import conf from '../config';
+import Item from '../components/Item';
 
 let items = [];
 let type = '';
@@ -172,7 +172,6 @@ class Items extends React.Component {
 
     return(
     <>
-      <h1>Type</h1>
       <ul>
         {/* TODO: Put this in global nav */}
         {this.state.itemTypes && (
@@ -201,24 +200,9 @@ class Items extends React.Component {
         )))}
       </ul>
 
-      <ul>
+      <ul className="grid">
         {filteredItems.map((item, i) =>  (
-          <li key={i}>
-          <h2>{item.gsx$itemtype.$t}</h2>
-            <p>{item.gsx$title.$t}</p>
-            <Link as={`/p/${item.gsx$heading.$t}`} href={`/post?id=${item.gsx$heading.$t}`}>
-              <a>{item.gsx$heading.$t}</a>
-            </Link>
-            
-            {item.tags.length && 
-              <div>
-              {item.tags.map((t, i) => (
-              <span className="tag" key={i}>{t}</span>
-              ))}
-            </div>
-            }
-              {/* <img src={item.gsx$image.$t.startsWith('http') ? item.gsx$image.$t : conf.path + item.gsx$image.$t} alt={item.gsx$heading.$t} /> */}
-          </li>
+          <Item {...item} key={i}></Item>
           )
         )}
       </ul>
