@@ -165,26 +165,33 @@ class Items extends React.Component {
     return(
     <>
     <div className="filter-holder">
-      <section>
-      <p>Filter by title:</p>
-      <div className="span-col-4">
-        {titles && (titles.map((item, i) =>(
-          
-          <button onClick={() => {this.handleTitleFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
-          
-        )))}
-      </div>
-      <button onClick={() => {this.handleTitleFilter("all")}}  className={"all" === this.state.filterByTitle ? 'active':''}>Show all</button>
-      </section>
-      <section>
-      <p>Filter by tags:</p>
-      <div className="span-col-4">
-        {tags && (tags.map((item, i) =>(
-          <button onClick={() => {this.handleTagFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
-        )))}
-      </div>
-      <button onClick={() => {this.handleTagFilter("all")}}  className={"all" === this.state.filterByTitle ? 'active':''}>Show all</button>
-      </section>
+      {titles  &&
+      (
+        <section>
+        <p>Filter by title:</p>
+        <div className="span-col-4">
+          {titles && (titles.map((item, i) =>(
+            
+            <button onClick={() => {this.handleTitleFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
+            
+          )))}
+        </div>
+        <button onClick={() => {this.handleTitleFilter("all")}}  className={"all" === this.state.filterByTitle ? 'active':''}>Show all</button>
+        </section>
+      )}
+      
+      {tags &&
+      (
+        <section>
+        <p>Filter by tags:</p>
+        <div className="span-col-4">
+          {tags && (tags.map((item, i) =>(
+            <button onClick={() => {this.handleTagFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
+          )))}
+        </div>
+        <button onClick={() => {this.handleTagFilter("all")}}  className={"all" === this.state.filterByTitle ? 'active':''}>Show all</button>
+        </section>
+      )}
       </div>
       <section className="grid items">
         {filteredItems.map((item, i) =>  (

@@ -3,6 +3,7 @@ import conf from '../config';
 const Item = ((props) => {
   const link = props.gsx$link.$t.length > 0 ? <a className="link" href={props.gsx$link.$t} target="_blank"></a>
   : "Available on request";
+  const date = new Date(props.gsx$datepublished.$t).getFullYear() ;
   return (
   <article key={props.id}>
     {
@@ -14,7 +15,7 @@ const Item = ((props) => {
     <div className="details">
     <h2>{props.gsx$heading.$t}</h2>
 
-    <h3>{props.gsx$title.$t}</h3>
+    <h3>{props.gsx$title.$t} <time>{date}</time></h3>
     <p>{props.gsx$description.$t}</p>
     
     
