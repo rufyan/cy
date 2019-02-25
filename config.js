@@ -1,3 +1,3 @@
 export default {
-    path: "http://www.charmaineyabsley.com.au"
+    path: "ttp://www.charmaineyabsley.com.au/"
 }

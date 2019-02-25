@@ -3,7 +3,7 @@ import fetch from 'isomorphic-unfetch';
 import conf from '../config';
 
 let items = [];
-
+let type = '';
 const PostLink = (props) => (
   <li>
     <Link as={`/portfolio/${props.id}`} href={`/portfolio?title=${props.title}`}>
@@ -16,14 +16,9 @@ const PostLink = (props) => (
 class Items extends React.Component {
   constructor(props){
     super(props)
-    let type = ''
-    if(props.router){
-      type = props.router.query.title;
-    }
 
     this.state = {
       loading : 'initial',
-      filterByType : type,
       filterByTitle : '',
       sortByDate :'desc'
     }
@@ -39,7 +34,7 @@ class Items extends React.Component {
     this.setState({loading : 'true'});
     this.loadData()
     .then((res) => {
-      //Once data has come in, process it and setState
+      //Once data has come in, process it and set global var
       items = res.feed.entry.filter((item) => (
         item.gsx$islive.$t === "1"
       ));
@@ -55,7 +50,7 @@ class Items extends React.Component {
         items.map((item) => (
           item.gsx$title.$t
         ))
-      )];
+      )].filter(x => x!='') ;
 
       this.setState({
         itemTypes,
@@ -64,7 +59,6 @@ class Items extends React.Component {
 
       });
     });
-     
   }
 
   handleTitleFilter(value){
@@ -74,25 +68,25 @@ class Items extends React.Component {
   }
 
   getFilteredItems(){
+    console.log(this.props.router);
+    if(this.props.router){
+      type = this.props.router.query.title;
+    }else{
+      type = '';
+    }
     let filteredItems = items;
-    console.log('gfi', this.props.router)
+    let filterbyType = this.props.router ? this.props.router.query.title : null;
     //filter by type
-    if(this.state.filterByType){
-      if (this.props.router && this.props.router.query){
-        //item type route changed
-        filteredItems = filteredItems.filter((item) => (
-          item.gsx$itemtype.$t === this.props.router.query.title
-        ));
-      }else{
-      console.log('filtertpy', this.state.filterByType)
+    if(type){
       filteredItems = filteredItems.filter((item) => (
-        item.gsx$itemtype.$t === this.state.filterByType
+        item.gsx$itemtype.$t === filterbyType
       ));
-      }
+    }else{
+      
     }
 
     //filter by title
-    if(this.state.filterByTitle){
+    if(this.state.filterByTitle && type !== 'Book'){
       filteredItems = filteredItems.filter((item) => (
         item.gsx$title.$t === this.state.filterByTitle
         )
@@ -112,34 +106,47 @@ class Items extends React.Component {
     
     //Only render data once loading is false
     const filteredItems = this.getFilteredItems();
+
+    //Put title filters in a local var, unless the type is "Book"
+    let titles = [];
+    if(this.props.router && this.props.router.query.title ==='Book'){
+      titles = null;
+    }else{
+      titles= this.state.titles;
+    }
+
+
     return(
     <>
       <h1>Type</h1>
       <ul>
-        {this.state.itemTypes.map((item, i) => (
+        {/* TODO: Put this in global nav */}
+        {this.state.itemTypes && (
+          this.state.itemTypes.map((item, i) => (
             <PostLink title={item} id={item.replace(' ','-')} key={i}></PostLink>
-        ))}
+        )))}
 
       </ul>
       <p>Filter by title:</p>
       <ul>
-        {this.state.titles.map((item, i) =>(
+        {titles && (titles.map((item, i) =>(
           <li key={i}>
           <button onClick={() => {this.handleTitleFilter(item)}} key={i}>{item}</button>
           </li>
-        ))}
+        )))}
       </ul>
       <ul>
-        {filteredItems.map((item, i) => (
+        {filteredItems.map((item, i) =>  (
           <li key={i}>
           <h2>{item.gsx$itemtype.$t}</h2>
             <p>{item.gsx$title.$t}</p>
             <Link as={`/p/${item.gsx$heading.$t}`} href={`/post?id=${item.gsx$heading.$t}`}>
               <a>{item.gsx$heading.$t}</a>
             </Link>
-              <img src={`${conf.path}/${item.gsx$image.$t}`} alt={item.gsx$heading.$t} />
+              <img src={item.gsx$image.$t.startsWith('http') ? item.gsx$image.$t : conf.path + item.gsx$image.$t} alt={item.gsx$heading.$t} />
           </li>
-        ))}
+          )
+        )}
       </ul>
     </>
   )
