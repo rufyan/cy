@@ -32,7 +32,13 @@ nav{font-size: 2rem}
     grid-template-columns: repeat(auto-fit,minmax(400px,1fr));
     grid-gap: 2rem;
 }
-
+button{
+    background: none; 
+    border: 0;
+    padding: 5px;
+    &:focus{outline: 0}
+}
+.active{background: silver}
 
 
 /**/

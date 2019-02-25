@@ -20,6 +20,7 @@ class Items extends React.Component {
     this.state = {
       loading : 'initial',
       filterByTitle : '',
+      filterByTag : '',
       sortByDate :'desc'
     }
   }
@@ -35,9 +36,10 @@ class Items extends React.Component {
     this.loadData()
     .then((res) => {
       //Once data has come in, process it and set global var
-      items = res.feed.entry.filter((item) => (
-        item.gsx$islive.$t === "1"
-      ));
+      items = res.feed.entry.filter((item) => {
+        item.tags = item.gsx$tags.$t.split(',').map((t) => (t.trim()));
+        return  item.gsx$islive.$t === "1"
+      });
 
       const itemTypes = [...new Set(
         items.map((item) => (
@@ -50,25 +52,58 @@ class Items extends React.Component {
         items.map((item) => (
           item.gsx$title.$t
         ))
-      )].filter(x => x!='') ;
+      )].filter(x => x!='');
 
+      const allTags = [];
+      items.map((item) => (
+        item.gsx$tags.$t.split(',')
+      )).filter(x => x!='').forEach((t) => {
+          t.forEach((r) => {
+            allTags.push(r.trim())
+          })
+        }
+      );
+
+      const tags = [...new Set(allTags)]
+            
       this.setState({
         itemTypes,
         titles,
         loading: 'false',
-
+        tags
       });
     });
   }
 
   handleTitleFilter(value){
+    if(value !=='all'){
     this.setState({
       filterByTitle : value
     })
   }
+    else{
+      this.setState({
+        filterByTitle : ''
+      })
+  
+    }
+  }
+
+  handleTagFilter(value){
+    if(value !=='all'){
+      this.setState({
+        filterByTag : value
+      })
+    }
+      else{
+        this.setState({
+          filterByTag : ''
+        })
+    
+      }  
+  }
 
   getFilteredItems(){
-    console.log(this.props.router);
     if(this.props.router){
       type = this.props.router.query.title;
     }else{
@@ -87,11 +122,24 @@ class Items extends React.Component {
 
     //filter by title
     if(this.state.filterByTitle && type !== 'Book'){
+      console.log(this.state.filterByTitle);
       filteredItems = filteredItems.filter((item) => (
         item.gsx$title.$t === this.state.filterByTitle
         )
       );
     }
+
+    if(this.state.filterByTag && type !== 'Book'){
+      filteredItems = filteredItems.filter((item) =>(
+        item.tags.some((t) => ( t === this.state.filterByTag)
+      ))
+      )
+    }
+
+    filteredItems = filteredItems.sort((a,b) => {
+      return new Date(b.gsx$datepublished.$t) - new Date(a.gsx$datepublished.$t);
+    });
+    console.log(filteredItems);
     return filteredItems;
   }
 
@@ -115,6 +163,12 @@ class Items extends React.Component {
       titles= this.state.titles;
     }
 
+    let tags = [];
+    if(this.props.router && this.props.router.query.title ==='Book'){
+      tags = null;
+    }else{
+      tags= this.state.tags;
+    }
 
     return(
     <>
@@ -129,12 +183,24 @@ class Items extends React.Component {
       </ul>
       <p>Filter by title:</p>
       <ul>
+      <li><button onClick={() => {this.handleTitleFilter("all")}}  className={"all" === this.state.filterByTitle ? 'active':''}>Show all</button></li>
         {titles && (titles.map((item, i) =>(
           <li key={i}>
-          <button onClick={() => {this.handleTitleFilter(item)}} key={i}>{item}</button>
+          <button onClick={() => {this.handleTitleFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
           </li>
         )))}
       </ul>
+
+      <p>Filter by tags:</p>
+      <ul>
+        <li><button onClick={() => {this.handleTagFilter("all")}}  className={"all" === this.state.filterByTitle ? 'active':''}>Show all</button></li>
+        {tags && (tags.map((item, i) =>(
+          <li key={i}>
+          <button onClick={() => {this.handleTagFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
+          </li>
+        )))}
+      </ul>
+
       <ul>
         {filteredItems.map((item, i) =>  (
           <li key={i}>
@@ -143,7 +209,15 @@ class Items extends React.Component {
             <Link as={`/p/${item.gsx$heading.$t}`} href={`/post?id=${item.gsx$heading.$t}`}>
               <a>{item.gsx$heading.$t}</a>
             </Link>
-              <img src={item.gsx$image.$t.startsWith('http') ? item.gsx$image.$t : conf.path + item.gsx$image.$t} alt={item.gsx$heading.$t} />
+            
+            {item.tags.length && 
+              <div>
+              {item.tags.map((t, i) => (
+              <span className="tag" key={i}>{t}</span>
+              ))}
+            </div>
+            }
+              {/* <img src={item.gsx$image.$t.startsWith('http') ? item.gsx$image.$t : conf.path + item.gsx$image.$t} alt={item.gsx$heading.$t} /> */}
           </li>
           )
         )}
