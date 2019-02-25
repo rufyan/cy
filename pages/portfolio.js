@@ -11,10 +11,13 @@ const Content = withRouter((props) => {
       <header {...props}>
         <h1>{props.router.query.title}s</h1>
       </header>
-      <section className="items">
-        <Head><title>Cyte - Por {props.router.query.title}</title></Head>
-        <Items {...props}></Items>
-      </section>
+      <div className="wide row">
+
+        <section className="items">
+          <Head><title>Cyte - Por {props.router.query.title}</title></Head>
+          <Items {...props}></Items>
+        </section>
+      </div>
     </>
   )})
     

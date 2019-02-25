@@ -5,11 +5,11 @@ import Meta from './Meta';
 class Page extends React.Component {
     render(){
         return (
-            <div className="wide row">
-                <Meta></Meta>
-                <Header></Header>
+            <>            
+            <Meta></Meta>
+            <Header></Header>
                 {this.props.children}
-            </div>
+            </>
         )
     }
 }

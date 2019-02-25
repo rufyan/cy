@@ -14,7 +14,10 @@ const PostLink = (props) => (
 )
 
 const Index = (props) => (
+  <div className="wide row">
+
   <Items {...props}></Items>
+  </div>
 )
 
 // let items = [];
