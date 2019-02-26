@@ -1,9 +1,4 @@
 import Link from 'next/link'
-
-const linkStyle = {
-  marginRight: 15
-}
-
 const NavLink = (props) => {
   console.log(props);
   (
@@ -17,11 +12,10 @@ const NavLink = (props) => {
 }
 
 const Header = ((props) => {
-  console.log('p', props);
   return  (
     <nav>
      <Link href="/">
-            <a className="logo">Charmaine Yabsley</a>
+          <a className="logo">Charmaine Yabsley</a>
           </Link>
      <ul>
        <li>
