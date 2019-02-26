@@ -176,7 +176,7 @@ class Items extends React.Component {
             
           )))}
         </div>
-        <button onClick={() => {this.handleTitleFilter("all")}}  className={"all" === this.state.filterByTitle ? 'active':''}>Show all</button>
+        <button onClick={() => {this.handleTitleFilter("all")}}  className={`clear-filters ${"all" === this.state.filterByTitle ? 'active':''}`}>Show all</button>
         </section>
       )}
       
@@ -189,7 +189,7 @@ class Items extends React.Component {
             <button onClick={() => {this.handleTagFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
           )))}
         </div>
-        <button onClick={() => {this.handleTagFilter("all")}}  className={"all" === this.state.filterByTitle ? 'active':''}>Show all</button>
+        <button onClick={() => {this.handleTagFilter("all")}}  className={`clear-filters ${"all" === this.state.filterByTitle ? 'active':''}`}>Show all</button>
         </section>
       )}
       </div>

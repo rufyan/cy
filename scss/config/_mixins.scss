@@ -1,0 +1,152 @@
+
+/// Transition Mixin.
+/// Can pass in transition-property, transition-duration and transition-timing-function values,
+/// or include without params to use default values.
+/// @param {string} $property [all] - The CSS property to apply our transition to
+/// @param {time} $duration [0.3s] - How long we want our transition to take to complete
+/// @param {string} $timing-function [ease] - The timing function or cubic bezier curve to use for our transition
+@mixin transition($property: all, $duration: 0.3s, $timing-function: ease) {
+	transition: $property $duration $timing-function;
+}
+
+/// Font Styling Mixin.
+/// Can pass in font-size, font-weight, line-height, letter-spacing,
+/// or include without params to use default values.
+/// @param {length} $size [$rem-base] - The value for `font-size` (will be converted to EMs)
+/// @param {length} $lheight [null] - The value for `line-height` (will be converted to EMs)
+/// @param {integer} $weight [null] - The value for `font-weight` (e.g. 300, 400, etc)
+/// @param {length} $lspacing [null] - The value for `letter-spacing` (no conversion)
+/// @requires {variable} $rem-base - The default value for `font-size`
+@mixin font($size: $rem-base, $lheight: null, $weight: null, $lspacing: null, $em-base: $font__size) {
+	@if $size != null {
+		font-size: em($size, $em-base);
+	}
+	@if $weight != null {
+		font-weight: $weight;
+	}
+	@if $lheight != null {
+		line-height: em($lheight, $size);
+	}
+	@if $lspacing != null {
+		letter-spacing: $lspacing;
+	}
+}
+
+@mixin font-rem($size: $rem-base, $lheight: null, $weight: null, $lspacing: null) {
+	@if $size != null {
+		font-size: rem($size);
+	}
+	@if $weight != null {
+		font-weight: $weight;
+	}
+	@if $lheight != null {
+		line-height: em($lheight, $size);
+	}
+	@if $lspacing != null {
+		letter-spacing: $lspacing;
+	}
+}
+
+/// Cover Mixin.
+/// Position an element to completely cover/fill its next relatively-positioned parent in the DOM tree.
+/// @param {integer} $zindex - The value for the `z-index` property
+@mixin cover($zindex) {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 100%;
+	z-index: $zindex;
+}
+
+/// Vertical Alignment Mixin.
+/// Position an element in the vertical center of its next relatively-positioned parent in the DOM tree.
+/// @param {string} $position [relative] - The value for the `position` property (either relative or absolute)
+@mixin va($position: relative) {
+	position: $position;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+/// Center Alignment Mixin.
+/// Position an element in the vertical and horizontal center of its next relatively-positioned parent in the DOM tree.
+/// @param {string} $position [relative] - The value for the `position` property (either relative or absolute)
+@mixin position-center($position: relative) {
+	position: $position;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+/// Opacity Mixin.
+/// Provides an IE8 fallback for `opacity` values.
+/// @param {integer} $opacity - The value for the `opacity` property
+@mixin opacity($opacity) {
+	opacity: $opacity;
+	$opacity-ie: $opacity * 100;
+	filter: alpha(opacity = $opacity-ie); //IE8
+}
+
+/// Min-Width Media Query Mixin.
+/// Creates a media query with a `min-width` rule.
+/// @param {length} $name - The name of the desired breakpoint
+/// @param {array}  $breakpoints [$min-breakpoints] - The array of breakpoints
+@mixin min-screen($name, $breakpoints: $min-breakpoints) {
+	$min: breakpoint-min($name, $breakpoints);
+	@if $min {
+		@media (min-width: $min) {
+			@content;
+		}
+	} @else {
+		// Use passed value explicitly if it doesn't match a named breakpoint in the array.
+		@media (min-width: $name) {
+			@content;
+		}
+	}
+}
+
+/// Max-Width Media Query Mixin.
+/// Creates a media query with a `max-width` rule.
+/// @param {length} $name - The name of the desired breakpoint
+/// @param {array}  $breakpoints [$max-breakpoints] - The array of breakpoints
+@mixin max-screen($name, $breakpoints: $max-breakpoints) {
+	$max: breakpoint-max($name, $breakpoints);
+	@if $max {
+		@media (max-width: $max) {
+			@content;
+		}
+	} @else {
+		// Use passed value explicitly if it doesn't match a named breakpoint in the array.
+		@media (max-width: $name) {
+			@content;
+		}
+	}
+}
+
+/// Full Media Query Mixin.
+/// Creates a media query with both a `min-width` and `max-width` rule.
+/// @param {length} $lower - The `min-width` breakpoint.
+/// @param {length} $upper - The `max-width` breakpoint.
+/// @param {array}  $lower-breakpoints [$min-breakpoints] - The array of `min-width` breakpoints.
+/// @param {array}  $upper-breakpoints [$max-breakpoints] - The array of `max-width` breakpoints.
+@mixin screen($lower, $upper, $lower-breakpoints: $min-breakpoints, $upper-breakpoints: $max-breakpoints) {
+	$min: breakpoint-min($lower, $lower-breakpoints);
+	$max: breakpoint-max($upper, $upper-breakpoints);
+
+	@media (min-width: $min) and (max-width: $max) {
+		@content;
+	}
+}
+
+
+//Calculate em value
+@function get-em($px, $base: 16px) {
+	@return ($px / $base) * 1em;
+}
+
+//Calculate a vw value to match a pixel size at a screen size
+@function get-vw($target, $screen) {
+	$vw-context: ($screen * 0.01) * 1px;
+	@return ($target / $vw-context) * 1vw;
+}
