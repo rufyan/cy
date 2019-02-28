@@ -11,18 +11,26 @@ app.prepare()
  
  //get route and map to page, with route string mapped to query params
   server.get('/articles', (req, res) => {
-    const actualPage = '/portfolio'
+    const actualPage = '/articles'
     const queryParams = { title: 'Article' } 
     console.log(actualPage, queryParams)
     app.render(req, res, actualPage, queryParams)
   })
 
   server.get('/books', (req, res) => {
-    const actualPage = '/portfolio'
+    const actualPage = '/books'
     const queryParams = { title: 'Book' } 
     console.log(actualPage, queryParams)
     app.render(req, res, actualPage, queryParams)
   })
+
+  server.get('/content', (req, res) => {
+    const actualPage = '/content'
+    const queryParams = { title: 'Content' } 
+    console.log(actualPage, queryParams)
+    app.render(req, res, actualPage, queryParams)
+  })
+
 
   server.get('*', (req, res) => {
     return handle(req, res)

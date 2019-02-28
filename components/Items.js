@@ -5,6 +5,7 @@ import Item from '../components/Item';
 let items = [];
 let type = '';
 
+
 class Items extends React.Component {
   constructor(props){
     super(props)
@@ -56,7 +57,9 @@ class Items extends React.Component {
         }
       );
 
-      const tags = [...new Set(allTags)]
+      const tags = [...new Set(allTags)];
+
+
             
       this.setState({
         itemTypes,
@@ -69,10 +72,10 @@ class Items extends React.Component {
 
   handleTitleFilter(value){
     if(value !=='all'){
-    this.setState({
-      filterByTitle : value
-    })
-  }
+      this.setState({
+        filterByTitle : value
+      })
+    }
     else{
       this.setState({
         filterByTitle : ''
@@ -87,12 +90,11 @@ class Items extends React.Component {
         filterByTag : value
       })
     }
-      else{
-        this.setState({
-          filterByTag : ''
-        })
-    
-      }  
+    else{
+      this.setState({
+        filterByTag : ''
+      })
+    }  
   }
 
   getFilteredItems(){
@@ -137,7 +139,6 @@ class Items extends React.Component {
   }
 
   render(){
-    console.log(this.props)
     if (this.state.loading === 'initial') {
       return <h2>Intializing...</h2>;
     }

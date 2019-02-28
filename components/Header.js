@@ -1,15 +1,4 @@
 import Link from 'next/link'
-const NavLink = (props) => {
-  console.log(props);
-  (
-  <li>
-    <Link as={`/portfolio/${props.id}`} href={`/portfolio?title=${props.title}`}>
-      <a>{props.title}</a>
-    </Link>
-    
-  </li>
-)
-}
 
 const Header = ((props) => {
   return  (
@@ -29,7 +18,12 @@ const Header = ((props) => {
             <a>Books</a>
           </Link>          
         </li>
-      </ul>
+        <li>
+        <Link as={`/Content`} href="/content">
+            <a>Content</a>
+          </Link>          
+        </li>
+     </ul>
     </nav>
 )})
 

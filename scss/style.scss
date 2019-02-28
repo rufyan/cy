@@ -48,6 +48,7 @@ nav {
     display: inline-block;
 
     a {
+      display: block;
       padding: 2rem 1rem;
       font-size: 1.5rem;
     }
@@ -127,7 +128,7 @@ header {
         left: 0;
         height: 38px;
         width: 38px;
-        background-image: url('../public/images/icons/icon-close-thin.svg');
+        background-image: url('../static/images/icons/icon-close-thin.svg');
         opacity: .4;
       }
     }
@@ -172,7 +173,11 @@ header {
   }
 
   .image-holder {
-    // display: none;
+    height: 250px;
+
+    img {
+      width: 100%
+    }
   }
 
   .details {
@@ -217,7 +222,7 @@ header {
 }
 
 .intro-home {
-  background: url(../public/images/home-1140.jpg) no-repeat;
+  background: url(../static/images/home-1140.jpg) no-repeat;
   background-size: cover;
   text-align: center;
 
