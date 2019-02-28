@@ -7,8 +7,6 @@ const Item = ((props) => {
   //live images
   //const img = props.gsx$image.$t.startsWith('http') ? props.gsx$image.$t : conf.path + props.gsx$image.$t;
   const img='';
-  //const img = `/static/${props.gsx$image.$t}`;
- //const img = require(`/static/${props.gsx$image.$t}`);
 return (
   <article key={props.id}>
     {
