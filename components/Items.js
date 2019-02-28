@@ -103,6 +103,7 @@ class Items extends React.Component {
     }
     let filteredItems = items;
     let filterbyType = this.props.router ? this.props.router.query.title : null;
+    console.log(items, 't', filterbyType)
     //filter by type
     if(type){
       filteredItems = filteredItems.filter((item) => (
@@ -136,6 +137,7 @@ class Items extends React.Component {
   }
 
   render(){
+    console.log(this.props)
     if (this.state.loading === 'initial') {
       return <h2>Intializing...</h2>;
     }
