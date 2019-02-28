@@ -19,13 +19,13 @@ const Header = ((props) => {
           </Link>
      <ul>
        <li>
-          <Link as={`/portfolio/Article`} href="/portfolio/Article">
+          <Link as={`/Articles`} href="/Articles">
             <a>Articles</a>
           </Link>
           </li>
            
         <li>
-        <Link as={`/portfolio/Book`} href="/portfolio/Book">
+        <Link as={`/Books`} href="/Books">
             <a>Books</a>
           </Link>          
         </li>
