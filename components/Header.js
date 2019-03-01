@@ -7,7 +7,7 @@ const Header = ((props) => {
         <a className="logo">Charmaine Yabsley</a>
     </Link>
     {/* TODO: Make mobile */}
-     <ul>
+     <ul className='main-menu__items'>
        <li>
           <Link as={`/Articles`} href="/Articles">
             <a>Articles</a>
@@ -25,6 +25,9 @@ const Header = ((props) => {
           </Link>          
         </li>
      </ul>
+     <section className='main-menu__mobile'>
+      <div className='main-menu__mobile-toggle'></div>
+     </section>
     </nav>
 )})
 
