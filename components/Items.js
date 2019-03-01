@@ -1,10 +1,9 @@
-import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import Item from '../components/Item';
 
 let items = [];
 let type = '';
-
+let page = '';
 
 class Items extends React.Component {
   constructor(props){
@@ -105,7 +104,7 @@ class Items extends React.Component {
     }
     let filteredItems = items;
     let filterbyType = this.props.router ? this.props.router.query.title : null;
-    console.log(items, 't', filterbyType)
+    console.log(this.props)
     //filter by type
     if(type){
       filteredItems = filteredItems.filter((item) => (
@@ -134,6 +133,11 @@ class Items extends React.Component {
     filteredItems = filteredItems.sort((a,b) => {
       return new Date(b.gsx$datepublished.$t) - new Date(a.gsx$datepublished.$t);
     });
+
+    if(this.props.data ==='home'){
+      page = 'home';
+      filteredItems = filteredItems.slice(0,4);
+    }
     console.log(filteredItems);
     return filteredItems;
   }
@@ -167,35 +171,37 @@ class Items extends React.Component {
 
     return(
     <>
-    <div className="filter-holder">
-      {titles  &&
-      (
-        <section>
-        <p>Filter by title:</p>
-        <div className="span-col-4">
-          {titles && (titles.map((item, i) =>(
-            
-            <button onClick={() => {this.handleTitleFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
-            
-          )))}
+    {page !== 'home' &&
+      <div className="filter-holder">
+        {titles  &&
+        (
+          <section>
+          <p>Filter by title:</p>
+          <div className="span-col-4">
+            {titles && (titles.map((item, i) =>(
+              
+              <button onClick={() => {this.handleTitleFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
+              
+            )))}
+          </div>
+          <button onClick={() => {this.handleTitleFilter("all")}}  className={`clear-filters ${"all" === this.state.filterByTitle ? 'active':''}`}>Show all</button>
+          </section>
+        )}
+        
+        {tags &&
+        (
+          <section>
+          <p>Filter by tags:</p>
+          <div className="span-col-4">
+            {tags && (tags.map((item, i) =>(
+              <button onClick={() => {this.handleTagFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
+            )))}
+          </div>
+          <button onClick={() => {this.handleTagFilter("all")}}  className={`clear-filters ${"all" === this.state.filterByTitle ? 'active':''}`}>Show all</button>
+          </section>
+        )}
         </div>
-        <button onClick={() => {this.handleTitleFilter("all")}}  className={`clear-filters ${"all" === this.state.filterByTitle ? 'active':''}`}>Show all</button>
-        </section>
-      )}
-      
-      {tags &&
-      (
-        <section>
-        <p>Filter by tags:</p>
-        <div className="span-col-4">
-          {tags && (tags.map((item, i) =>(
-            <button onClick={() => {this.handleTagFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
-          )))}
-        </div>
-        <button onClick={() => {this.handleTagFilter("all")}}  className={`clear-filters ${"all" === this.state.filterByTitle ? 'active':''}`}>Show all</button>
-        </section>
-      )}
-      </div>
+      }
       <section className="grid items">
         {filteredItems.map((item, i) =>  (
           <Item {...item} key={i}></Item>

@@ -173,7 +173,6 @@ header {
   }
 
   .image-holder {
-    height: 250px;
 
     img {
       width: 100%
@@ -245,5 +244,29 @@ header {
         background-color: $cy_nearwhite;
       }
     }
+  }
+}
+
+.copy {
+  max-width: 780px;
+  margin: 0 auto;
+  h2{
+    margin:4rem 0 2rem;
+  }
+}
+
+footer {
+  background: $cy_dark;
+  color: $cy_nearwhite;
+  padding: 3rem;
+  text-align: center;
+
+  a {
+    color: $cy_nearwhite;
+  }
+
+  li {
+    display: inline;
+    padding: 0 2rem;
   }
 }

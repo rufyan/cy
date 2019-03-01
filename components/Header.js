@@ -4,8 +4,9 @@ const Header = ((props) => {
   return  (
     <nav>
      <Link href="/">
-          <a className="logo">Charmaine Yabsley</a>
-          </Link>
+        <a className="logo">Charmaine Yabsley</a>
+    </Link>
+    {/* TODO: Make mobile */}
      <ul>
        <li>
           <Link as={`/Articles`} href="/Articles">
