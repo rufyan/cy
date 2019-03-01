@@ -24,49 +24,50 @@ class Items extends React.Component {
   }
 
   componentDidMount(){
-    this.setState({loading : 'true'});
-    this.loadData()
-    .then((res) => {
-      //Once data has come in, process it and set global var
-      items = res.feed.entry.filter((item) => {
-        item.tags = item.gsx$tags.$t.split(',').map((t) => (t.trim()));
-        return  item.gsx$islive.$t === "1"
-      });
+    // this.setState({loading : 'true'});
+    // this.loadData()
+    // .then((res) => {
+    //   //Once data has come in, process it and set global var
+    //   items = res.feed.entry.filter((item) => {
+    //     item.tags = item.gsx$tags.$t.split(',').map((t) => (t.trim()));
+    //     return  item.gsx$islive.$t === "1"
+    //   });
 
-      const itemTypes = [...new Set(
-        items.map((item) => (
-          item.gsx$itemtype.$t 
-          )
-        )
-      )];
+    //   const itemTypes = [...new Set(
+    //     items.map((item) => (
+    //       item.gsx$itemtype.$t 
+    //       )
+    //     )
+    //   )];
   
-      const titles = [...new Set(
-        items.map((item) => (
-          item.gsx$title.$t
-        ))
-      )].filter(x => x!='');
+    //   const titles = [...new Set(
+    //     items.map((item) => (
+    //       item.gsx$title.$t
+    //     ))
+    //   )].filter(x => x!='');
 
-      const allTags = [];
-      items.map((item) => (
-        item.gsx$tags.$t.split(',')
-      )).filter(x => x!='').forEach((t) => {
-          t.forEach((r) => {
-            allTags.push(r.trim())
-          })
-        }
-      );
+    //   const allTags = [];
+    //   items.map((item) => (
+    //     item.gsx$tags.$t.split(',')
+    //   )).filter(x => x!='').forEach((t) => {
+    //       t.forEach((r) => {
+    //         allTags.push(r.trim())
+    //       })
+    //     }
+    //   );
 
-      const tags = [...new Set(allTags)];
+    //   const tags = [...new Set(allTags)];
 
 
             
-      this.setState({
-        itemTypes,
-        titles,
-        loading: 'false',
-        tags
-      });
-    });
+    //   this.setState({
+    //     items,
+    //     itemTypes,
+    //     titles,
+    //     loading: 'false',
+    //     tags
+    //   });
+    // });
   }
 
   handleTitleFilter(value){
@@ -102,9 +103,8 @@ class Items extends React.Component {
     }else{
       type = '';
     }
-    let filteredItems = items;
+    let filteredItems = this.props.items;
     let filterbyType = this.props.router ? this.props.router.query.title : null;
-    console.log(this.props)
     //filter by type
     if(type){
       filteredItems = filteredItems.filter((item) => (
@@ -113,22 +113,24 @@ class Items extends React.Component {
     }else{
       
     }
+    console.log(this.props);
 
     //filter by title
-    if(this.state.filterByTitle && type !== 'Book'){
-      console.log(this.state.filterByTitle);
+    if(this.props.filterByTitle && type !== 'Book'){
+      console.log(this.props.filterByTitle);
       filteredItems = filteredItems.filter((item) => (
         item.gsx$title.$t === this.state.filterByTitle
         )
       );
     }
 
-    if(this.state.filterByTag && type !== 'Book'){
+    if(this.props.filterByTag && type !== 'Book'){
       filteredItems = filteredItems.filter((item) =>(
         item.tags.some((t) => ( t === this.state.filterByTag)
       ))
       )
     }
+    console.log(filteredItems.length);
 
     filteredItems = filteredItems.sort((a,b) => {
       return new Date(b.gsx$datepublished.$t) - new Date(a.gsx$datepublished.$t);
@@ -138,18 +140,17 @@ class Items extends React.Component {
       page = 'home';
       filteredItems = filteredItems.slice(0,4);
     }
-    console.log(filteredItems);
     return filteredItems;
   }
 
   render(){
-    if (this.state.loading === 'initial') {
-      return <h2>Intializing...</h2>;
-    }
+    // if (this.state.loading === 'initial') {
+    //   return <h2>Intializing...</h2>;
+    // }
 
-    if (this.state.loading === 'true') {
-      return <h2>Loading...</h2>;
-    }
+    // if (this.state.loading === 'true') {
+    //   return <h2>Loading...</h2>;
+    // }
     
     //Only render data once loading is false
     const filteredItems = this.getFilteredItems();
@@ -159,14 +160,14 @@ class Items extends React.Component {
     if(this.props.router && this.props.router.query.title ==='Book'){
       titles = null;
     }else{
-      titles= this.state.titles;
+      titles= this.props.titles;
     }
 
     let tags = [];
     if(this.props.router && this.props.router.query.title ==='Book'){
       tags = null;
     }else{
-      tags= this.state.tags;
+      tags= this.props.tags;
     }
 
     return(
