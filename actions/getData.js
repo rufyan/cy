@@ -1,14 +1,19 @@
-import endpoint from '../config';
+import config from '../config';
+import fetch from 'isomorphic-unfetch';
 
-const getData = () => {
+const getData = async () => {
   let itemTypes, titles, tags, items;
-  const res = await fetch(endpoint);
-  const itemjson =await res.json()
+  const res = await fetch(config.endpoint)
+  .then(res => res.json())
+  .then(
+  //console.log('res', res)
+  //const itemjson = res.json()
     //Once data has come in, process it and set global var
-    items = itemjson.feed.entry.filter((item) => {
+    items = res.feed.entry.filter((item) => {
       item.tags = item.gsx$tags.$t.split(',').map((t) => (t.trim()));
       return  item.gsx$islive.$t === "1"
-    });
+    })
+  );
     itemTypes = [...new Set(
       items.map((item) => (
         item.gsx$itemtype.$t 
@@ -43,4 +48,4 @@ const getData = () => {
     });
 }
 
-export { getData };
+export default getData;

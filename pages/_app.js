@@ -1,9 +1,22 @@
 import React from 'react'
+import {createStore} from "redux";
 import App, { Container } from 'next/app'
 import Page from '../components/Page'
-import withReduxStore from '../lib/with-redux-store'
+import withReduxStore from 'next-redux-wrapper'
 import { Provider } from 'react-redux'
 
+const reducer = (state = {foo: ''}, action) => {
+  switch (action.type) {
+      case 'getData':
+          return {...state, foo: action.payload};
+      default:
+          return state
+  }
+};
+
+const makeStore = (initialState, options) => {
+  return createStore(reducer, initialState);
+};
 
 class MyApp extends App {
   render () {
@@ -20,4 +33,4 @@ class MyApp extends App {
   }
 }
 
-export default withReduxStore(MyApp)
+export default withReduxStore(makeStore)(MyApp)

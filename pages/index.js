@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import getData from '../actions/getData'
 
 class Index extends React.Component {
-  static async getInitialProps ({ reduxStore, req }) {
+  static async getInitialProps ({ store, req }) {
     
-    await reduxStore.dispatch(getData())
+    await store.dispatch(getData())
 
     return {}
   }
