@@ -91,7 +91,7 @@ nav {
       display: inline-block;
       width: 36px;
       height: 36px;
-      background-image: url('../static/images/icons/menu.svg');
+      background-image: url('/static/images/icons/menu.svg');
       background-size: cover;
       background-position: left top;
       margin-left: 15px;
@@ -174,7 +174,7 @@ header {
         left: 0;
         height: 38px;
         width: 38px;
-        background-image: url('../static/images/icons/icon-close-thin.svg');
+        background-image: url('/static/images/icons/icon-close-thin.svg');
         opacity: .4;
       }
     }
