@@ -8,7 +8,7 @@ import Items from '../components/Items';
 // });
 
 const Content = withRouter((props) => {
-  return(
+  return( 
     <>
       <header {...props}>
         <h1>{props.router.query.title}s</h1>
