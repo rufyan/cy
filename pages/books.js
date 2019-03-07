@@ -9,11 +9,11 @@ const Content = withRouter((props) => {
   return(
     <>
       <header {...props}>
-        <h1>{props.router.query.title}s</h1>
+        <h1>Books</h1>
       </header>
       <div className="wide row">
 
-          <Head><title>Cyte - Por {props.router.query.title}</title></Head>
+          <Head><title>Charmaine Yabsley - Freelance Health Journalist, author</title></Head>
           <Items {...props}></Items>
       </div>
     </>

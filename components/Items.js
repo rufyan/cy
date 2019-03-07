@@ -1,4 +1,3 @@
-import fetch from 'isomorphic-unfetch';
 import Item from '../components/Item';
 
 let items = [];
@@ -15,58 +14,6 @@ class Items extends React.Component {
       filterByTag : '',
       sortByDate :'desc'
     }
-  }
-
-  loadData(){
-    const data= fetch('https://spreadsheets.google.com/feeds/list/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0/od6/public/values?alt=json')
-    .then(response => response.json());
-    return data;
-  }
-
-  componentDidMount(){
-    // this.setState({loading : 'true'});
-    // this.loadData()
-    // .then((res) => {
-    //   //Once data has come in, process it and set global var
-    //   items = res.feed.entry.filter((item) => {
-    //     item.tags = item.gsx$tags.$t.split(',').map((t) => (t.trim()));
-    //     return  item.gsx$islive.$t === "1"
-    //   });
-
-    //   const itemTypes = [...new Set(
-    //     items.map((item) => (
-    //       item.gsx$itemtype.$t 
-    //       )
-    //     )
-    //   )];
-  
-    //   const titles = [...new Set(
-    //     items.map((item) => (
-    //       item.gsx$title.$t
-    //     ))
-    //   )].filter(x => x!='');
-
-    //   const allTags = [];
-    //   items.map((item) => (
-    //     item.gsx$tags.$t.split(',')
-    //   )).filter(x => x!='').forEach((t) => {
-    //       t.forEach((r) => {
-    //         allTags.push(r.trim())
-    //       })
-    //     }
-    //   );
-
-    //   const tags = [...new Set(allTags)];
-
-
-            
-    //   this.setState({
-    //     itemTypes,
-    //     titles,
-    //     loading: 'false',
-    //     tags
-    //   });
-    // });
   }
 
   handleTitleFilter(value){
@@ -104,7 +51,6 @@ class Items extends React.Component {
     }
     let filteredItems = this.props.items;
     let filterbyType = this.props.router ? this.props.router.query.title : null;
-    console.log('props',this.props)
     //filter by type
     if(type){
       filteredItems = filteredItems.filter((item) => (
@@ -139,19 +85,14 @@ class Items extends React.Component {
       page = 'home';
       filteredItems = filteredItems && filteredItems.slice(0,4);
     }
-    console.log(filteredItems);
+
+    //TODO Item Paging
+    //TODO break spreadsheet into latest sheet, to reduce index page load
     return filteredItems;
   }
 
   render(){
-    // if (this.state.loading === 'initial') {
-    //   return <h2>Intializing...</h2>;
-    // }
-
-    // if (this.state.loading === 'true') {
-    //   return <h2>Loading...</h2>;
-    // }
-    
+   
     //Only render data once loading is false
     const filteredItems = this.getFilteredItems();
 

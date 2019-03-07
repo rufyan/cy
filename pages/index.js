@@ -1,8 +1,15 @@
 import fetch from 'isomorphic-unfetch';
 import Items from '../components/Items';
 import config from '../config';
+import getData from '../actions/getData';
+import Head from 'next/head'
 
-const Index = (props) => (
+const Index = (props) => {
+  return (
+
+  <>
+  <Head><title>Charmaine Yabsley - Freelance Health Journalist</title></Head>
+
   <main className="wide row">
   <section className="intro-home">
     <h1>Charmaine Yabsley <span>Freelance health journalist</span></h1>
@@ -26,7 +33,8 @@ Since returning to Australia four years ago, and basing herself on the Gold Coas
 <h2>Recent work</h2>
   <Items {...props} data={"home"}></Items>
   </main>
-)
+  </>
+)}
 
 Index.getInitialProps = async () => {
   let itemTypes, titles, tags, items;

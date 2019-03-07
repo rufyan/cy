@@ -7,10 +7,10 @@ const Content = withRouter((props) => {
   return(
     <>
       <header {...props}>
-        <h1>{props.router.query.title}</h1>
+        <h1>Content creation</h1>
       </header>
       <div className="wide row">
-          <Head><title>Cyte - {props.router.query.title}</title></Head>
+          <Head><title>Charmaine Yabsley - Freelance Health Journalist, content creator</title></Head>
           <section className='copy'>
             <h2>Charmaine creates PR or copywriting campaigns.</h2>
 
