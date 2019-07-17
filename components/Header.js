@@ -1,13 +1,26 @@
 import Link from 'next/link'
 
-const Header = ((props) => {
+class Header extends React.Component  {
+  constructor(props){
+    super(props)
+    this.state = {
+      mobileclicked : false
+    }
+  }
+  handleMobilemenuClick(state){
+    
+    this.setState({mobileclicked : state ? false : true})
+    console.log(this.state)
+  }
+
+  render(){
   return  (
-    <nav>
+    <nav className="wide">
      <Link href="/">
         <a className="logo">Charmaine Yabsley</a>
     </Link>
     {/* TODO: Make mobile */}
-     <ul className='main-menu__items'>
+     <ul className={`main-menu__items ${this.state.mobileclicked ? 'mobile-active':''}`}>
        <li>
           <Link as={`/articles`} href={{pathname: '/articles', query: {title: 'Article'}}}>
             <a>Articles</a>
@@ -26,10 +39,10 @@ const Header = ((props) => {
           </Link>          
         </li>
      </ul>
-     <section className='main-menu__mobile'>
-      <div className='main-menu__mobile-toggle'></div>
+     <section className={`main-menu__mobile`}>
+      <div className={`main-menu__mobile-toggle  ${this.state.mobileclicked ? 'active':''}`} onClick={() => this.handleMobilemenuClick(this.state.mobileclicked)}></div>
      </section>
     </nav>
-)})
+)}}
 
 export default Header

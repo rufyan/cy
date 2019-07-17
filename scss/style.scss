@@ -39,12 +39,15 @@ h1 {
   font-family: $header-font;
   font-size: 6rem;
   padding: 12rem;
-  letter-spacing: 0.5rem;
+  // letter-spacing: 0.5rem;
   margin: 0 auto;
+  font-weight: normal;
 
-  @include max-screen(lg) {
-    padding: 7rem;
+  @include max-screen(sm) {
+    padding: 3rem;
     background: none;
+    font-size:2em;
+    line-height: 1;
   }
 }
 
@@ -70,6 +73,7 @@ nav {
       display: block;
       padding: 2rem;
       font-size: 1em;
+      font-family: $header-font;
     }
   }
 
@@ -86,22 +90,19 @@ nav {
       transform: translateX(110vw);
       transition: transform .5s;
       z-index: 50;
-      padding: 20px
-    }
+      padding: 20px;
+      
+      &.mobile-active {
+        transform: translateX(0);
+      }
+     }
 
     .main-menu__mobile {
-      -webkit-box-align: center;
-      -ms-flex-align: center;
       align-items: center;
-      display: -webkit-box;
-      display: -ms-flexbox;
       display: flex;
-      -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
       flex-grow: 1;
-      -webkit-box-pack: end;
-      -ms-flex-pack: end;
-      justify-content: flex-end
+      justify-content: flex-end;
+
     }
 
     .main-menu__mobile-toggle {
@@ -114,7 +115,11 @@ nav {
       background-position: left top;
       margin-left: 15px;
       -webkit-transition: background-position .3s;
-      transition: background-position .3s
+      transition: background-position .3s;
+
+      &.active {
+        background-position: left bottom;
+      }
     }
   }
 }
@@ -128,7 +133,7 @@ nav {
 }
 
 .wide {
-  padding: 0 20px !important;
+  padding: 0 30px !important;
 }
 
 
@@ -143,7 +148,7 @@ button {
 }
 
 .active {
-  background: silver
+  background: $cy_offwhite;
 }
 
 header {
@@ -156,8 +161,7 @@ header {
   font-size: 2.5rem;
   font-family: $header-font;
   text-decoration: none;
-  font-weight: bold;
-  padding: 2rem 2rem;
+  padding: 2rem 0rem;
   display: block;
 }
 
@@ -169,9 +173,11 @@ header {
   button {
     margin: 0 5px 5px 0;
     padding: 11px 22px 10px;
-    border: 2px solid $cy_dark;
+    border: 2px solid $cy_offwhite;
     font-family: $body-font;
     transition: color .3s, background .3s, opacity .2s;
+    color: $cy_grey;
+    border-radius: 16px;
 
     &:hover {
       background: $cy_offwhite
@@ -193,7 +199,10 @@ header {
         height: 38px;
         width: 38px;
         background-image: url('/static/images/icons/icon-close-thin.svg');
-        opacity: .4;
+        background-size: 26px 26px;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: .1;
       }
     }
   }
@@ -203,6 +212,8 @@ header {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 30px;
+
+    p{ margin-top:0}
   }
 }
 
@@ -216,7 +227,7 @@ header {
 
 .items {
   display: grid;
-  grid-gap: 40px;
+  grid-gap: 7rem;
 
   @include min-screen(md) {
     grid-template-columns: repeat(2, 1fr);
@@ -227,9 +238,13 @@ header {
   }
 
   @include min-screen(xl) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
+  @include min-screen(xxl) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
   margin-top:3rem;
 
   article {
@@ -264,13 +279,14 @@ header {
   h3 {
     line-height: 32px;
     text-transform: uppercase;
+    font-family: $sans-font;
     font-weight: normal;
-    font-size: 16px;
+    font-size: 14px;
     letter-spacing: 0.1rem;
     color: $cy_grey;
 
     time {
-      margin: 0 0 0 2rem;
+      // margin: 0 0 0 2rem;
     }
   }
 
@@ -295,6 +311,7 @@ header {
     color: $cy_nearwhite;
     letter-spacing: 0;
     font-weight: normal;
+    font-family: $header-font;
 
     span {
       display: block;

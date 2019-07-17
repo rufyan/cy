@@ -46,7 +46,6 @@ class Items extends React.Component {
   }
 
   getFilteredItems(){
-    console.log('this.props.router', this.props.router)
     if(this.props.router){
       type = this.props.router.query.title;
     }else{
@@ -62,21 +61,16 @@ class Items extends React.Component {
     }else{
       
     }
-console.log('type ',type)
-console.log('props.filterByTitle', this.props.filterByTitle)
-console.log('state.filterByTitle', this.state.filterByTitle)
-
 
     //filter by title
-    if(this.props.filterByTitle && type !== 'Book'){
-      console.log(this.state.filterByTitle);
+    if(this.state.filterByTitle && type !== 'Book'){
       filteredItems = filteredItems.filter((item) => (
         item.gsx$title.$t === this.state.filterByTitle
         )
       );
     }
 
-    if(this.props.filterByTag && type !== 'Book'){
+    if(this.state.filterByTag && type !== 'Book'){
       filteredItems = filteredItems.filter((item) =>(
         item.tags.some((t) => ( t === this.state.filterByTag)
       ))
@@ -127,7 +121,7 @@ console.log('state.filterByTitle', this.state.filterByTitle)
         {titles  &&
         (
           <section>
-          <p>Filter by title:</p>
+          <p>Titles</p>
           <div className="span-col-4">
             {titles && (titles.map((item, i) =>(
               
@@ -142,13 +136,13 @@ console.log('state.filterByTitle', this.state.filterByTitle)
         {tags &&
         (
           <section>
-          <p>Filter by tags:</p>
+          <p>Tags:</p>
           <div className="span-col-4">
             {tags && (tags.map((item, i) =>(
-              <button onClick={() => {this.handleTagFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
+              <button onClick={() => {this.handleTagFilter(item)}} key={i} className={item === this.state.filterByTag ? 'active':''}>{item}</button>
             )))}
           </div>
-          <button onClick={() => {this.handleTagFilter("all")}}  className={`clear-filters ${"all" === this.state.filterByTitle ? 'active':''}`}>Show all</button>
+          <button onClick={() => {this.handleTagFilter("all")}}  className={`clear-filters ${"all" === this.state.filterByTag ? 'active':''}`}>Show all</button>
           </section>
         )}
         </div>
