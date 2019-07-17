@@ -12,11 +12,13 @@ class Items extends React.Component {
       loading : 'initial',
       filterByTitle : '',
       filterByTag : '',
-      sortByDate :'desc'
+      sortByDate :'desc',
+      type : ''
     }
   }
 
   handleTitleFilter(value){
+    console.log('title clicked ',value);
     if(value !=='all'){
       this.setState({
         filterByTitle : value
@@ -44,6 +46,7 @@ class Items extends React.Component {
   }
 
   getFilteredItems(){
+    console.log('this.props.router', this.props.router)
     if(this.props.router){
       type = this.props.router.query.title;
     }else{
@@ -59,6 +62,10 @@ class Items extends React.Component {
     }else{
       
     }
+console.log('type ',type)
+console.log('props.filterByTitle', this.props.filterByTitle)
+console.log('state.filterByTitle', this.state.filterByTitle)
+
 
     //filter by title
     if(this.props.filterByTitle && type !== 'Book'){
@@ -95,7 +102,7 @@ class Items extends React.Component {
    
     //Only render data once loading is false
     const filteredItems = this.getFilteredItems();
-
+    console.log('render, ', this.props.router);
     //Put title filters in a local var, unless the type is "Book"
     let titles = [];
     if(this.props.router && this.props.router.query.title ==='Book'){
@@ -110,6 +117,8 @@ class Items extends React.Component {
     }else{
       tags= this.props.tags;
     }
+
+    console.log(page, tags, titles)
 
     return(
     <>

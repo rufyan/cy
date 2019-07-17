@@ -9,13 +9,14 @@ const Header = ((props) => {
     {/* TODO: Make mobile */}
      <ul className='main-menu__items'>
        <li>
-          <Link as={`/articles`} href="/articles">
+          <Link as={`/articles`} href={{pathname: '/articles', query: {title: 'Article'}}}>
             <a>Articles</a>
           </Link>
           </li>
            
         <li>
-        <Link as={`/books`} href="/books">
+        {/* /*<Link as={`/books`} href="/books">*/ }
+        <Link as={`/books`} href={{pathname: '/books', query: {title: 'Book'}}}>
             <a>Books</a>
           </Link>          
         </li>

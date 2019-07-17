@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-unfetch';
 import Items from '../components/Items';
 import config from '../config';
-import getData from '../actions/getData';
+// import getData from '../actions/getData';
 import Head from 'next/head'
 
 const Index = (props) => {
