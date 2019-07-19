@@ -5,7 +5,7 @@ const Item = ((props) => {
   : "Available on request";
   const date = new Date(props.gsx$datepublished.$t).getFullYear();
   //live images
-  const img = props.gsx$image.$t.startsWith('http') ? props.gsx$image.$t : `static/${props.gsx$image.$t}`;
+  const img = props.gsx$image.$t.startsWith('http') ? props.gsx$image.$t : `./static/${props.gsx$image.$t}`;
 return (
   <article key={props.id}>
     {
