@@ -35,6 +35,38 @@ module.exports = (phase, { defaultConfig }) => {
   const withSass = require('@zeit/next-sass')
   const withOffline = require('next-offline');
 
-  return withSass(withImages(withOffline(manifest)));
+  const nextConfig = {
+    target: 'serverless',
+    workboxOpts: {
+      //swDest: 'static/service-worker.js',
+      runtimeCaching: [
+        {
+          urlPattern: /^https?.*/,
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'https-calls',
+            networkTimeoutSeconds: 15,
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 30 * 24 * 60 * 60
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        },
+        {
+          urlPattern: /^static\/images\/*/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'images'
+          }
+
+        }
+      ]
+    }
+  };
+
+  return withSass(withImages(withOffline(nextConfig)));
 };
 
