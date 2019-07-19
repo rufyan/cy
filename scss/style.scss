@@ -59,7 +59,6 @@ nav {
   font-size: 2rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
   position: relative;
 
   ul {
@@ -71,7 +70,7 @@ nav {
 
     a {
       display: block;
-      padding: 2rem;
+      padding: 2.5rem;
       font-size: 1em;
       font-family: $header-font;
     }
@@ -161,7 +160,7 @@ header {
   font-size: 2.5rem;
   font-family: $header-font;
   text-decoration: none;
-  padding: 2rem 0rem;
+  padding: 2.5rem 0rem;
   display: block;
 }
 
@@ -265,7 +264,7 @@ header {
   }
 
   .link {
-    position: absolute;
+   // position: absolute;
     top: 0;
     left: 0;
     width: 100%;
