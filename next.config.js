@@ -60,7 +60,6 @@ module.exports = (phase, { defaultConfig }) => {
           handler: 'CacheFirst',
           options: {
             cacheName: 'Data',
-            networkTimeoutSeconds: 15,
             expiration: {
               maxEntries: 100,
               maxAgeSeconds: 30 * 24 * 60 * 60

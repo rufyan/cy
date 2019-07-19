@@ -8,6 +8,7 @@ const Meta = () => (
     <meta name="theme-color" content="#416967" />
     <title>Charmaine Yabsley | Freelance Health journalist</title>
     <link rel="manifest" href="/static/manifest.json" />
+    <script src="https://kit.fontawesome.com/a482e16781.js"></script>
   </Head>
 );
 

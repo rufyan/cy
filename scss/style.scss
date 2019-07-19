@@ -345,6 +345,11 @@ footer {
   text-align: center;
   margin-top: 6rem;
 
+  .socials {
+    i {
+      font-size: 1.8em;
+    }
+  }
   a {
     color: $cy_nearwhite;
   }
