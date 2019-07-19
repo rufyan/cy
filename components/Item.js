@@ -1,11 +1,9 @@
-import conf from '../config';
-
 const Item = ((props) => {
   const link = props.gsx$link.$t.length > 0 ? <a className="link" href={props.gsx$link.$t} target="_blank"></a>
-  : "Available on request";
+  : "";
   const date = new Date(props.gsx$datepublished.$t).getFullYear();
   //live images
-  const img = props.gsx$image.$t.startsWith('http') ? props.gsx$image.$t : `./static/${props.gsx$image.$t}`;
+  const img = props.gsx$image.$t.startsWith('http') ? props.gsx$image.$t : `/static/${props.gsx$image.$t}`;
 return (
   <article key={props.id}>
     {

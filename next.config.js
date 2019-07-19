@@ -56,6 +56,21 @@ module.exports = (phase, { defaultConfig }) => {
           }
         },
         {
+          urlPattern: /^https:\/\/spreadsheets.google.com\/feeds\/list\/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0\/od6\/public\/values?alt=json*/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'Data',
+            networkTimeoutSeconds: 15,
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 30 * 24 * 60 * 60
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        },       
+        {
           urlPattern: /^static\/images\/*/,
           handler: 'CacheFirst',
           options: {
@@ -66,6 +81,12 @@ module.exports = (phase, { defaultConfig }) => {
       ]
     }
   };
+//Running npm run dev causes this when devmode is used for next-offlin
+//TypeError: Cannot read property 'issuer' of undefined
+  const devmode ={
+    devSwSrc: '/service-worker.js',
+    generateInDevMode: false
+  }
 
   return withSass(withImages(withOffline(nextConfig)));
 };

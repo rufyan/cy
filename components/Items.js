@@ -18,7 +18,6 @@ class Items extends React.Component {
   }
 
   handleTitleFilter(value){
-    console.log('title clicked ',value);
     if(value !=='all'){
       this.setState({
         filterByTitle : value
@@ -96,7 +95,6 @@ class Items extends React.Component {
    
     //Only render data once loading is false
     const filteredItems = this.getFilteredItems();
-    console.log('render, ', this.props.router);
     //Put title filters in a local var, unless the type is "Book"
     let titles = [];
     if(this.props.router && this.props.router.query.title ==='Book'){
@@ -111,8 +109,6 @@ class Items extends React.Component {
     }else{
       tags= this.props.tags;
     }
-
-    console.log(page, tags, titles)
 
     return(
     <>
