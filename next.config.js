@@ -41,21 +41,7 @@ module.exports = (phase, { defaultConfig }) => {
       //swDest: 'static/service-worker.js',
       runtimeCaching: [
         {
-          urlPattern: /^https?.*/,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'https-calls',
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 30 * 24 * 60 * 60
-            },
-            cacheableResponse: {
-              statuses: [0, 200]
-            }
-          }
-        },
-        {
-          urlPattern:new RegExp('https://spreadsheets.google.com/feeds/list/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0/od6/public/values?alt=json'),
+          urlPattern: /\/feeds\//,          
           //urlPattern: /^https:\/\/spreadsheets.google.com\/feeds\/list\/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0\/od6\/public\/values?alt=json*/,
           handler: 'CacheFirst',
           options: {
@@ -68,7 +54,22 @@ module.exports = (phase, { defaultConfig }) => {
               statuses: [0, 200]
             }
           }
-        },       
+        },  
+        {
+          urlPattern: /^https?.*/,
+          handler: 'networkFirst',
+          options: {
+            cacheName: 'https-calls',
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 30 * 24 * 60 * 60
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        },
+     
         {
           urlPattern: /^static\/images\/*/,
           handler: 'CacheFirst',
