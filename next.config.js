@@ -83,35 +83,6 @@ module.exports = (phase, { defaultConfig }) => {
             }
           }
         },
-         {
-          urlPattern: /\/|\/articles|\/books|\/content/,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'Pages',
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 30 * 24 * 60 * 60
-            },
-            cacheableResponse: {
-              statuses: [0, 200]
-            }
-          }
-        },       
-        // {
-        //   urlPattern: /^https?.*/,
-        //   handler: 'staleWhileRevalidate',
-        //   options: {
-        //     cacheName: 'https-calls',
-        //     expiration: {
-        //       maxEntries: 100,
-        //       maxAgeSeconds: 30 * 24 * 60 * 60
-        //     },
-        //     cacheableResponse: {
-        //       statuses: [0, 200]
-        //     }
-        //   }
-        // },
-     
         {
           urlPattern: /\.(?:png|gif|jpg|jpeg|svg)$/,
           handler: 'CacheFirst',
@@ -125,7 +96,35 @@ module.exports = (phase, { defaultConfig }) => {
               statuses: [0, 200]
             }
           }
-
+        },
+         {
+          urlPattern: /\/|\/articles|\/books|\/content/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'Pages',
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 30 * 24 * 60 * 60
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        }, 
+        {
+          //Left this in as a catch all for pages, because the 'Pages' one doesn't cache pages - html/js?
+          urlPattern: /^https?.*/,
+          handler: 'staleWhileRevalidate',
+          options: {
+            cacheName: 'https-calls',
+            expiration: {
+              maxEntries: 200,
+              maxAgeSeconds: 30 * 24 * 60 * 60
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
         }
       ]
     }
