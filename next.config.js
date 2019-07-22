@@ -42,10 +42,9 @@ module.exports = (phase, { defaultConfig }) => {
       runtimeCaching: [
         {
           urlPattern: /^https?.*/,
-          handler: 'NetworkFirst',
+          handler: 'CacheFirst',
           options: {
             cacheName: 'https-calls',
-            networkTimeoutSeconds: 15,
             expiration: {
               maxEntries: 100,
               maxAgeSeconds: 30 * 24 * 60 * 60
@@ -56,7 +55,8 @@ module.exports = (phase, { defaultConfig }) => {
           }
         },
         {
-          urlPattern: /^https:\/\/spreadsheets.google.com\/feeds\/list\/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0\/od6\/public\/values?alt=json*/,
+          urlPattern:new RegExp('https://spreadsheets.google.com/feeds/list/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0/od6/public/values?alt=json'),
+          //urlPattern: /^https:\/\/spreadsheets.google.com\/feeds\/list\/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0\/od6\/public\/values?alt=json*/,
           handler: 'CacheFirst',
           options: {
             cacheName: 'Data',
