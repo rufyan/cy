@@ -39,11 +39,13 @@ module.exports = (phase, { defaultConfig }) => {
     target: 'serverless',
     workboxOpts: {
       //swDest: 'static/service-worker.js',
+      clientsClaim: true,
+      skipWaiting: true,
       runtimeCaching: [
         {
           urlPattern: /\/feeds\//,          
           //urlPattern: /^https:\/\/spreadsheets.google.com\/feeds\/list\/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0\/od6\/public\/values?alt=json*/,
-          handler: 'CacheFirst',
+          handler: 'staleWhileRevalidate',
           options: {
             cacheName: 'Data',
             expiration: {
@@ -57,7 +59,7 @@ module.exports = (phase, { defaultConfig }) => {
         },  
         {
           urlPattern: /^https?.*/,
-          handler: 'networkFirst',
+          handler: 'staleWhileRevalidate',
           options: {
             cacheName: 'https-calls',
             expiration: {
