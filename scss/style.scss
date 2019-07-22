@@ -224,6 +224,17 @@ header {
   grid-column: span 3 / auto;
 }
 
+.recently {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 30px;
+  align-items: center;
+
+  article {
+    img {max-width: 170px;}
+  }
+}
+
 .items {
   display: grid;
   grid-gap: 7rem;
@@ -234,8 +245,6 @@ header {
 
   @include min-screen(lg) {
     grid-template-columns: repeat(3, 1fr);
-    height: 550px;
-    overflow: hidden;
   }
 
   @include min-screen(xxl) {
@@ -251,7 +260,7 @@ header {
   }
 
   .image-holder {
-    min-height: 12em;
+    min-height: 15rem;
 
     &:before{
       content: 'Available on request';

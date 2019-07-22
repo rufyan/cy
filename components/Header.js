@@ -19,7 +19,6 @@ class Header extends React.Component  {
      <Link href="/">
         <a className="logo">Charmaine Yabsley</a>
     </Link>
-    {/* TODO: Make mobile */}
      <ul className={`main-menu__items ${this.state.mobileclicked ? 'mobile-active':''}`}>
        <li>
           <Link as={`/articles`} href={{pathname: '/articles', query: {title: 'Article'}}}>
@@ -28,7 +27,6 @@ class Header extends React.Component  {
           </li>
            
         <li>
-        {/* /*<Link as={`/books`} href="/books">*/ }
         <Link as={`/books`} href={{pathname: '/books', query: {title: 'Book'}}}>
             <a>Books</a>
           </Link>          

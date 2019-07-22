@@ -20,7 +20,8 @@ class Items extends React.Component {
   handleTitleFilter(value){
     if(value !=='all'){
       this.setState({
-        filterByTitle : value
+        filterByTitle : value,
+        filterByTag : ''
       })
     }
     else{
@@ -34,7 +35,8 @@ class Items extends React.Component {
   handleTagFilter(value){
     if(value !=='all'){
       this.setState({
-        filterByTag : value
+        filterByTag : value,
+        filterByTitle : ''
       })
     }
     else{
@@ -87,7 +89,6 @@ class Items extends React.Component {
     }
 
     //TODO Item Paging
-    //TODO break spreadsheet into latest sheet, to reduce index page load
     return filteredItems;
   }
 
@@ -120,9 +121,7 @@ class Items extends React.Component {
           <p>Titles</p>
           <div className="span-col-4">
             {titles && (titles.map((item, i) =>(
-              
               <button onClick={() => {this.handleTitleFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
-              
             )))}
           </div>
           <button onClick={() => {this.handleTitleFilter("all")}}  className={`clear-filters ${"all" === this.state.filterByTitle ? 'active':''}`}>Show all</button>
@@ -135,7 +134,7 @@ class Items extends React.Component {
           <p>Tags:</p>
           <div className="span-col-4">
             {tags && (tags.map((item, i) =>(
-              <button onClick={() => {this.handleTagFilter(item)}} key={i} className={item === this.state.filterByTag ? 'active':''}>{item}</button>
+              <button onClick={() => {this.handleTagFilter(item === this.state.filterByTag ? 'all' : item )}} key={i} className={item === this.state.filterByTag ? 'active':''}>{item}</button>
             )))}
           </div>
           <button onClick={() => {this.handleTagFilter("all")}}  className={`clear-filters ${"all" === this.state.filterByTag ? 'active':''}`}>Show all</button>
