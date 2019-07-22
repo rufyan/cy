@@ -251,9 +251,24 @@ header {
   }
 
   .image-holder {
+    min-height: 12em;
 
+    &:before{
+      content: 'Available on request';
+      font-size: 5rem;
+      display:block;
+      position: absolute;
+      z-index: 1;
+      color: $cy_grey;
+      text-align: center;
+      padding: 1em 0.2em;
+      line-height: 1em;
+
+    }
     img {
-      width: 100%
+      width: 100%;
+      position: relative;
+      z-index: 2;
     }
   }
 
@@ -262,11 +277,13 @@ header {
   }
 
   .link {
-   // position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    // width: 100%;
+    // min-height: 10rem;
+    // display: block;
+
   }
 
   h2 {
