@@ -234,10 +234,8 @@ header {
 
   @include min-screen(lg) {
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  @include min-screen(xl) {
-    grid-template-columns: repeat(3, 1fr);
+    height: 550px;
+    overflow: hidden;
   }
 
   @include min-screen(xxl) {
