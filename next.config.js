@@ -43,11 +43,24 @@ module.exports = (phase, { defaultConfig }) => {
       skipWaiting: true,
       runtimeCaching: [
         {
-          urlPattern: /\/feeds\//,          
+          urlPattern: /^https:\/\/spreadsheets.google.com/,          
           //urlPattern: /^https:\/\/spreadsheets.google.com\/feeds\/list\/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0\/od6\/public\/values?alt=json*/,
           handler: 'staleWhileRevalidate',
           options: {
             cacheName: 'Data',
+            expiration: {
+              maxAgeSeconds: 30 * 24 * 60 * 60
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        }, 
+        {
+          urlPattern: /^https:\/\/fonts\.googleapis\.com/,
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'fonts',
             expiration: {
               maxEntries: 100,
               maxAgeSeconds: 30 * 24 * 60 * 60
@@ -56,12 +69,12 @@ module.exports = (phase, { defaultConfig }) => {
               statuses: [0, 200]
             }
           }
-        },  
+        }, 
         {
-          urlPattern: /^https?.*/,
-          handler: 'staleWhileRevalidate',
+          urlPattern: /^https:\/\/fonts\.gstatic\.com/,
+          handler: 'CacheFirst',
           options: {
-            cacheName: 'https-calls',
+            cacheName: 'fonts',
             expiration: {
               maxEntries: 100,
               maxAgeSeconds: 30 * 24 * 60 * 60
@@ -71,12 +84,33 @@ module.exports = (phase, { defaultConfig }) => {
             }
           }
         },
+        // {
+        //   urlPattern: /^https?.*/,
+        //   handler: 'staleWhileRevalidate',
+        //   options: {
+        //     cacheName: 'https-calls',
+        //     expiration: {
+        //       maxEntries: 100,
+        //       maxAgeSeconds: 30 * 24 * 60 * 60
+        //     },
+        //     cacheableResponse: {
+        //       statuses: [0, 200]
+        //     }
+        //   }
+        // },
      
         {
-          urlPattern: /^static\/images\/*/,
+          urlPattern: /\.(?:png|gif|jpg|jpeg|svg)$/,
           handler: 'CacheFirst',
           options: {
-            cacheName: 'images'
+            cacheName: 'images',
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 30 * 24 * 60 * 60
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
           }
 
         }
