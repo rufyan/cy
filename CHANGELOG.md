@@ -1,3 +1,6 @@
+#0.0.7 2019-07-23
+* Tidy up of console.logs, commented code. 'Recent clients' layout
+
 #0.0.6 2019-07-23
 * 'Recent work' replaced with 'Recent clients' on home page
   -- name and image location of recent clients stored in config.js

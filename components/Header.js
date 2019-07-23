@@ -8,9 +8,7 @@ class Header extends React.Component  {
     }
   }
   handleMobilemenuClick(state){
-    
     this.setState({mobileclicked : state ? false : true})
-    console.log(this.state)
   }
 
   render(){
@@ -25,7 +23,6 @@ class Header extends React.Component  {
             <a>Articles</a>
           </Link>
           </li>
-           
         <li>
         <Link as={`/books`} href={{pathname: '/books', query: {title: 'Book'}}}>
             <a>Books</a>

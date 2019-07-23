@@ -3,7 +3,6 @@ import {withRouter} from 'next/router';
 
 
 const Content = withRouter((props) => {
-  console.log(props)
   return(
     <>
       <header {...props}>
@@ -13,7 +12,6 @@ const Content = withRouter((props) => {
           <Head><title>Charmaine Yabsley - Freelance Health Journalist, content creator</title></Head>
           <section className='copy'>
             <h2>Charmaine creates PR or copywriting campaigns.</h2>
-
             <p>
               Whether you're after regular social media output and updates, brochures, advertorials, real-life stories, recipes, wellness plans or just good old-fashioned copy.
             </p><p>

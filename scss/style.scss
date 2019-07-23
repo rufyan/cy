@@ -285,16 +285,6 @@ header {
     padding: 1em;
   }
 
-  .link {
-    // position: absolute;
-    // top: 0;
-    // left: 0;
-    // width: 100%;
-    // min-height: 10rem;
-    // display: block;
-
-  }
-
   h2 {
     line-height: 32px;
   }
@@ -307,10 +297,6 @@ header {
     font-size: 14px;
     letter-spacing: 0.1rem;
     color: $cy_grey;
-
-    time {
-      // margin: 0 0 0 2rem;
-    }
   }
 
   .tags {

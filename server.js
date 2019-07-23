@@ -13,31 +13,20 @@ app.prepare()
   server.get('/articles', (req, res) => {
     const actualPage = '/articles'
     const queryParams = { title: 'Article' } 
-    console.log('actualPage, queryParams', actualPage, queryParams)
     app.render(req, res, actualPage, queryParams)
   })
 
   server.get('/books', (req, res) => {
     const actualPage = '/books'
     const queryParams = { title: 'Book' } 
-    console.log(actualPage, queryParams)
     app.render(req, res, actualPage, queryParams)
   })
 
   server.get('/content', (req, res) => {
     const actualPage = '/content'
     const queryParams = { title: 'Content' } 
-    console.log(actualPage, queryParams)
     app.render(req, res, actualPage, queryParams)
   })
-
-//   server.get("/service-worker.js", (req, res) => {
-//     // Don't cache service worker is a best practice (otherwise clients wont get emergency bug fix)
-//     res.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
-//     res.set("Content-Type", "application/javascript");
-//     console.log('serviceworker', path.resolve("./offline/service-worker.js"))
-//     app.serveStatic(req, res, path.resolve("./offline/service-worker.js"));
-// });
 
   server.get('*', (req, res) => {
     return handle(req, res)

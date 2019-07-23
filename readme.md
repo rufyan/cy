@@ -7,8 +7,10 @@ to run locally, run `npm run dev` - style changes will be watched
 
 
 ##To do
-1. "Content" copy
-2. Contact page/details?
-3. "Add to home screen" button
-4. endpoint fetch to wait for service worker
-5. See if mobile menu not closing is common
+* Consider moving home and "Content" copy to spreadsheet - cy
+* Contact page/details? - cy
+* "Add to home screen" button
+* endpoint fetch to wait for service worker
+* See if mobile menu not closing is common
+* pagination of articles
+* https redirect
