@@ -24,8 +24,8 @@ const Content = withRouter((props) => {
   )});
 
   Content.getInitialProps = async () => {
-    let itemTypes, titles, tags, items;
-    const res = await fetch(config.endpoint);
+    let itemtypes, titles, tags, items;
+    const res = await fetch(config.endpoint.replace('{0}', 1));
     const itemjson =await res.json()
       //Once data has come in, process it and set global var
       items = itemjson.feed.entry.filter((item) => {
@@ -33,7 +33,7 @@ const Content = withRouter((props) => {
         return  item.gsx$islive.$t === "1"
       });
   
-      itemTypes = [...new Set(
+      itemtypes = [...new Set(
         items.map((item) => (
           item.gsx$itemtype.$t 
           )
@@ -60,7 +60,7 @@ const Content = withRouter((props) => {
   
     return  {
       items,
-      itemTypes,
+      itemtypes,
       titles,
       loading: 'false',
       tags

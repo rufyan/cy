@@ -1,3 +1,6 @@
+#0.0.10 2019-07-23
+* Store website copy in spreadsheet. Change endpoint to take page number. itemType refactored to itemtype - for React winge
+
 #0.0.9 2019-07-23
 * Install prompt test. favicon
 
