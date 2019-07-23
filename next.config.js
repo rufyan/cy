@@ -1,22 +1,3 @@
-const manifest = {
-  "short_name": "Charmaine Yabsley",
-  "name": "Charmaine Yabsley",
-  "description": "",
-  "dir": "ltr",
-  "lang": "en",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    }
-  ],
-  "start_url": "/",
-  "display": "standalone",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff"
-};
-
 const { PHASE_PRODUCTION_SERVER } =
   process.env.NODE_ENV === 'development'
     ? {}

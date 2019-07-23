@@ -8,6 +8,7 @@ const Footer = (() => {
           <li><a href="https://www.instagram.com/happygolightlytravels/?hl=en" target='_blank'><i className="fab fa-instagram"></i></a></li>
       </ul>
       <p className='copyright'>Charmaine Yabsley © {new Date().getFullYear()}</p>
+      <button className='btn-install'></button>
     </footer>
 )})
 
