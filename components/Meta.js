@@ -9,6 +9,7 @@ const Meta = () => (
     <title>Charmaine Yabsley | Freelance Health journalist</title>
     <link rel="manifest" href="/static/manifest.json" />
     <script src="https://kit.fontawesome.com/a482e16781.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
   </Head>
 );
 

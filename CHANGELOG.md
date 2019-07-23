@@ -1,5 +1,8 @@
-#0.0.7 2019-07-24
-* Install promp. Tidy up log
+#0.0.9 2019-07-23
+* Install prompt test. favicon
+
+#0.0.8 2019-07-23
+* Install prompt. Tidy up log
 
 #0.0.7 2019-07-23
 * Tidy up of console.logs, commented code. 'Recent clients' layout

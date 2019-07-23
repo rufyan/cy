@@ -1,6 +1,7 @@
 import React from 'react'
 import App, { Container } from 'next/app'
 import Page from '../components/Page'
+import window from 'global'
 
 export default class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -60,7 +61,6 @@ export default class MyApp extends App {
 const deferredPromptPromise = new Promise((resolve, reject) => {
 
   window.addEventListener('beforeinstallprompt', event => {
-
     // Prevent Chrome 67 and earlier from automatically showing the prompt
     event.preventDefault();
 
