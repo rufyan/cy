@@ -19,7 +19,7 @@ const Content = withRouter((props) => {
 
   Content.getInitialProps = async () => {
     let content;
-    const endpoint = config.endpoint.replace('{0}', 2)
+    const endpoint = config.endpoint.replace('od6', 2)
     const res = await fetch(endpoint);
     const itemjson =await res.json()
     itemjson.feed.entry.filter((item) => {

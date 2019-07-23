@@ -25,7 +25,7 @@ const Content = withRouter((props) => {
 
   Content.getInitialProps = async () => {
     let itemtypes, titles, tags, items;
-    const res = await fetch(config.endpoint.replace('{0}', 1));
+    const res = await fetch(config.endpoint.replace('od6', 1));
     const itemjson =await res.json()
       //Once data has come in, process it and set global var
       items = itemjson.feed.entry.filter((item) => {
