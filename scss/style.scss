@@ -260,19 +260,20 @@ header {
   }
 
   .image-holder {
-    min-height: 15rem;
+    min-height: 18rem;
 
     &:before{
       content: 'Available on request';
-      font-size: 5rem;
+      font-size: 2rem;
       display:block;
       position: absolute;
       z-index: 1;
-      color: $cy_grey;
+      color: $cy_light;
       text-align: center;
-      padding: 1em 0.2em;
+      padding: 7rem 0.2em;
       line-height: 1em;
-
+      font-style: italic;
+      width:100%;
     }
     img {
       width: 100%;

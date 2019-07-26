@@ -24,7 +24,7 @@ class Header extends React.Component  {
           </Link>
           </li>
         <li>
-        <Link as={`/books`} href={{pathname: '/books', query: {title: 'Book'}}}>
+        <Link as={`/books`} href={{pathname: '/books', query: {title: 'Book'}}} >
             <a>Books</a>
           </Link>          
         </li>

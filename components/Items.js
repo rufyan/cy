@@ -13,7 +13,8 @@ class Items extends React.Component {
       filterByTitle : '',
       filterByTag : '',
       sortByDate :'desc',
-      type : ''
+      type : '',
+      filtersVisible : true
     }
   }
 
@@ -92,6 +93,13 @@ class Items extends React.Component {
     return filteredItems;
   }
 
+  showHideFilter(show){
+    console.log(show)
+    this.setState({
+      filtersVisible : show ? false: true
+    })
+  }
+
   render(){
    
     //Only render data once loading is false
@@ -114,7 +122,9 @@ class Items extends React.Component {
     return(
     <>
     {page !== 'home' &&
-      <div className="filter-holder">
+      <>
+      <button onClick={() => {this.showHideFilter(this.state.filtersVisible)}} className="show-filters">Filters</button>
+      <div className={`filter-holder ${this.state.showFilter ? "" : "hide"}`}>
         {titles  &&
         (
           <section>
@@ -141,6 +151,7 @@ class Items extends React.Component {
           </section>
         )}
         </div>
+        </>
       }
       <section className="grid items">
         {filteredItems && filteredItems.map((item, i) =>  (
