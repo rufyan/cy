@@ -15,22 +15,22 @@ class Header extends React.Component  {
   return  (
     <nav className="wide">
      <Link href="/">
-        <a className="logo">Charmaine Yabsley</a>
+        <a className="logo"  onClick={() => this.handleMobilemenuClick(this.state.mobileclicked)}>Charmaine Yabsley</a>
     </Link>
      <ul className={`main-menu__items ${this.state.mobileclicked ? 'mobile-active':''}`}>
        <li>
           <Link as={`/articles`} href={{pathname: '/articles', query: {title: 'Article'}}}>
-            <a>Articles</a>
+            <a onClick={() => this.handleMobilemenuClick(this.state.mobileclicked)}>Articles</a>
           </Link>
           </li>
         <li>
         <Link as={`/books`} href={{pathname: '/books', query: {title: 'Book'}}} >
-            <a>Books</a>
+            <a onClick={() => this.handleMobilemenuClick(this.state.mobileclicked)}>Books</a>
           </Link>          
         </li>
         <li>
         <Link as={`/content`} href="/content">
-            <a>Content</a>
+            <a onClick={() => this.handleMobilemenuClick(this.state.mobileclicked)}>Content</a>
           </Link>          
         </li>
      </ul>

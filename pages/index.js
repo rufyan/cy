@@ -7,7 +7,11 @@ import config from '../config'
 const Index = withRouter((props) => {
   return (
     <>
-      <Head><title>Charmaine Yabsley - Freelance Health Journalist</title></Head>
+      <Head>
+      <title>CY</title>
+
+        {/* <title>Charmaine Yabsley - Freelance Health Journalist</title> */}
+        </Head>
 
       <main className="wide row home">
       <section className="intro-home">
