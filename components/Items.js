@@ -14,22 +14,40 @@ class Items extends React.Component {
       filterByTag : '',
       sortByDate :'desc',
       type : '',
-      filtersVisible : true
+      filtersVisible : true,
+      width: 0, height: 0
     }
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    this.setState({filtersVisible: window.innerWidth < 1140 ? false : true});
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
   handleTitleFilter(value){
-    if(value !=='all'){
+    switch(value){
+      case 'all' : case this.state.filterByTitle:
+          this.setState({
+            filterByTitle : '',
+            filterByTag : ''
+          })
+          break;
+      default :
       this.setState({
         filterByTitle : value,
         filterByTag : ''
       })
-    }
-    else{
-      this.setState({
-        filterByTitle : ''
-      })
-  
+      break;
     }
   }
 
@@ -94,10 +112,10 @@ class Items extends React.Component {
   }
 
   showHideFilter(show){
-    console.log(show)
     this.setState({
       filtersVisible : show ? false: true
     })
+    console.log(this.state.filtersVisible)
   }
 
   render(){
@@ -123,8 +141,8 @@ class Items extends React.Component {
     <>
     {page !== 'home' &&
       <>
-      <button onClick={() => {this.showHideFilter(this.state.filtersVisible)}} className="show-filters">Filters</button>
-      <div className={`filter-holder ${this.state.showFilter ? "" : "hide"}`}>
+      <button onClick={() => {this.showHideFilter(this.state.filtersVisible)}} className={`show-filters ${this.state.filtersVisible ?"hide" : ""}`}>{this.state.filtersVisible ?"Hide" : "Show"} filters</button>
+      <div className={`filter-holder ${this.state.filtersVisible ? "" : "hide"}`}>
         {titles  &&
         (
           <section>
