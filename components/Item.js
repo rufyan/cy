@@ -3,16 +3,16 @@ import Link from 'next/link';
 const Item = ((props) => {
   const link = props.gsx$link.$t.length > 0 ? <a className="link" href={props.gsx$link.$t} target="_blank">{props.gsx$heading.$t}</a>
   : props.gsx$heading.$t;
+  
   const date = new Date(props.gsx$datepublished.$t).getFullYear();
   //live images
-  const img = props.gsx$image.$t ? <img src={(props.gsx$image.$t.startsWith('http') ? props.gsx$image.$t : `/static/${props.gsx$image.$t}`)} alt={props.gsx$heading.$t} />
+  const img = props.gsx$image.$t ? <img src={(props.gsx$image.$t.startsWith('http') ? props.gsx$image.$t : `/static/${props.gsx$image.$t}`)} alt={`${props.gsx$heading.$t} - ${props.gsx$title.$t}`} />
     : '';
+    const linkimg = props.gsx$link.$t.length > 0 ? <a className="link" href={props.gsx$link.$t} target="_blank">{img} </a> : img;  
 return (
   <article key={props.id}>
     <div className="image-holder">
-    <a className="link" href={props.gsx$link.$t} target="_blank">
-      {img}
-    </a>
+    {linkimg}
     </div>
     <div className="details">
     <h2>{link}</h2>

@@ -82,7 +82,7 @@ nav {
       top: 100%;
       right: -20px;
       background-color: #fff;
-      display: inline-block;
+      display: none;
       width: 90%;
       max-width: 400px;
       height: 100vh;
@@ -93,6 +93,7 @@ nav {
       
       &.mobile-active {
         transform: translateX(0);
+        display:inline-block;
       }
      }
 
@@ -189,14 +190,21 @@ header {
   }
 }
 .filter-holder {
-  &.hide{display:none;}
+  transition: height 1s, transform 1s;
+  //height: 300px; 
+  overflow: hidden;
+
+  &.hide{
+    height: 0 !important;
+    // display: none;
+  }
   li {
     display: inline-block;
   }
 
   button {
     margin: 0 5px 5px 0;
-    padding: 11px 22px 10px;
+    padding: 1.1rem 2.2rem 1rem;
     border: 2px solid $cy_offwhite;
     font-family: $body-font;
     transition: color .3s, background .3s, opacity .2s;
@@ -238,6 +246,15 @@ header {
     grid-gap: 30px;
 
     p{ margin-top:0}
+
+    @include max-screen(sm) {
+      grid-template-columns: repeat(1, 1fr);  
+      grid-gap: 0;
+
+      .span-col-4{
+        grid-column: span 1
+      }
+    }
   }
 }
 
@@ -285,7 +302,7 @@ header {
   }
 
   .image-holder {
-    min-height: 18rem;
+    min-height: 21.5rem;
 
     &:before{
       content: 'Available on request';

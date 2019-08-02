@@ -15,7 +15,9 @@ class Items extends React.Component {
       sortByDate :'desc',
       type : '',
       filtersVisible : true,
-      width: 0, height: 0
+      width: 0, 
+      height: 0,
+      filterHeight: 0
     }
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
@@ -30,8 +32,17 @@ class Items extends React.Component {
   }
 
   updateWindowDimensions() {
-    this.setState({filtersVisible: window.innerWidth < 1140 ? false : true});
-    this.setState({ width: window.innerWidth, height: window.innerHeight });
+    this.setState({
+      filtersVisible: window.innerWidth < 1140 ? false : true,
+      filterHeight: this.props.tags.length + this.props.titles.length * (window.innerWidth > 1140 ? 
+        18 
+        : window.innerWidth > 800 ?
+         41 
+         : 53),
+      width: window.innerWidth, 
+      height: window.innerHeight
+    });
+    console.log('w', window.innerWidth, 'filterh', this.props.tags.length + this.props.titles.length,  this.state.filterHeight)
   }
 
   handleTitleFilter(value){
@@ -113,9 +124,8 @@ class Items extends React.Component {
 
   showHideFilter(show){
     this.setState({
-      filtersVisible : show ? false: true
-    })
-    console.log(this.state.filtersVisible)
+      filtersVisible : show ? false: true,
+    });
   }
 
   render(){
@@ -137,12 +147,14 @@ class Items extends React.Component {
       tags= this.props.tags;
     }
 
+    this.state.filterHeight = this.props.tags.length + this.props.titles.length * (this.state.width > 1200 ? 25 : 42);
+    
     return(
     <>
-    {page !== 'home' &&
+    {this.props.router.query.title !== 'Book' &&
       <>
-      <button onClick={() => {this.showHideFilter(this.state.filtersVisible)}} className={`show-filters ${this.state.filtersVisible ?"hide" : ""}`}>{this.state.filtersVisible ?"Hide" : "Show"} filters</button>
-      <div className={`filter-holder ${this.state.filtersVisible ? "" : "hide"}`}>
+      <button onClick={() => {this.showHideFilter(this.state.filtersVisible)}} className={`show-filters ${this.state.filtersVisible ? "hide" : ""}`}>Filters</button>
+      <div className={`filter-holder ${this.state.filtersVisible ? "" : "hide"}`} style={{height:this.state.filterHeight+'px'}}>
         {titles  &&
         (
           <section>
