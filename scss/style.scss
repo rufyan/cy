@@ -21,6 +21,7 @@ body {
   font-size: 1.8em;
   font-family: $body-font;
   line-height: 1.5em;
+  overflow: hidden;
 }
 
 p {
@@ -134,6 +135,7 @@ nav {
 
 .wide {
   padding: 0 30px !important;
+
 }
 
 
