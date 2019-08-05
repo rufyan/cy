@@ -1,9 +1,5 @@
 import Item from '../components/Item';
 
-let items = [];
-let type = '';
-let page = '';
-
 class Items extends React.Component {
   constructor(props){
     super(props)
@@ -17,7 +13,8 @@ class Items extends React.Component {
       filtersVisible : true,
       width: 0, 
       height: 0,
-      filterHeight: 0
+      filterHeight: 0,
+      firstLoad : true
     }
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
@@ -43,6 +40,12 @@ class Items extends React.Component {
       width: window.innerWidth, 
       height: window.innerHeight
     });
+  }
+
+  handleShowAll(){
+      this.setState({
+      firstLoad : false
+    })
   }
 
   handleTitleFilter(value){
@@ -77,45 +80,43 @@ class Items extends React.Component {
   }
 
   getFilteredItems(){
-    if(this.props.router){
-      type = this.props.router.query.title;
-    }else{
-      type = '';
-    }
     let filteredItems = this.props.items;
+    //Set item type from page - passed in from links via server.js
     let filterbyType = this.props.router ? this.props.router.query.title : null;
     
+
     //filter by type
-    if(type){
+    if(filterbyType){
       filteredItems = filteredItems.filter((item) => (
         item.gsx$itemtype.$t === filterbyType
       ));
-    }else{
-      
     }
    
     //filter by title
-    if(this.state.filterByTitle && type !== 'Book'){
+    if(this.state.filterByTitle && filterbyType !== 'Book'){
       filteredItems = filteredItems.filter((item) => (
         item.gsx$title.$t === this.state.filterByTitle
         )
       );
     }
 
-    if(this.props.filterByTag && type !== 'Book'){
+    //filter by tag
+    if(this.props.filterByTag && filterbyType !== 'Book'){
       filteredItems = filteredItems.filter((item) =>(
         item.tags.some((t) => ( t === this.state.filterByTag)
       ))
       )
     }
    
+    //sort filtered items
     filteredItems = filteredItems && filteredItems.sort((a,b) => {
       return new Date(b.gsx$datepublished.$t) - new Date(a.gsx$datepublished.$t);
     });
 
-    if(this.props.data ==='home'){
-      page = 'home';
-      filteredItems = filteredItems && filteredItems.slice(0,4);
+    //slice if no other filters set
+    if(this.state.filterByTag ==='' && this.state.filterByTitle ===''
+      && this.state.firstLoad){
+      filteredItems = filteredItems && filteredItems.slice(0,9);
     }
 
     return filteredItems;
@@ -145,14 +146,12 @@ class Items extends React.Component {
     }else{
       tags= this.props.tags;
     }
-
-   // this.state.filterHeight = this.props.tags.length + this.props.titles.length * (this.state.width > 1200 ? 25 : 42);
-    
+ 
     return(
     <>
     {this.props.router.query.title !== 'Book' &&
       <>
-      <button onClick={() => {this.showHideFilter(this.state.filtersVisible)}} className={`show-filters ${this.state.filtersVisible ? "hide" : ""}`}>Filters</button>
+      <button onClick={() => {this.showHideFilter(this.state.filtersVisible)}} className={`cta show-filters ${this.state.filtersVisible ? "hide-filters" : ""}`}>Filters</button>
       <div className={`filter-holder ${this.state.filtersVisible ? "" : "hide"}`} style={{height:this.state.filterHeight+'px'}}>
         {titles  &&
         (
@@ -188,6 +187,7 @@ class Items extends React.Component {
           )
         )}
       </section>
+      <button onClick={() => {this.handleShowAll()}} className={`cta ${this.state.firstLoad ? '' : 'hide'}`}>Show all</button>
     </>
   )
 }
