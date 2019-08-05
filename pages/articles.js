@@ -4,11 +4,6 @@ import fetch from 'isomorphic-unfetch';
 import Items from '../components/Items';
 import config from '../config';
 
-//var req = require.context('./public/images/articles', false, /\.(png|jpe?g|svg)$/);
-// req.keys().forEach(function(key){
-//   req(key);
-// });
-
 const Content = withRouter((props) => {
   return( 
     <>
@@ -16,9 +11,8 @@ const Content = withRouter((props) => {
         <h1>Articles</h1>
       </header>
       <div className="wide row">
-
-          <Head><title>Charmaine Yabsley - Freelance Health Journalist, health writer</title></Head>
-          <Items {...props} data={"articles"}></Items>
+        <Head><title>Articles by Charmaine Yabsley - Freelance Health Journalist, health writer</title></Head>
+        <Items {...props} data={"articles"}></Items>
       </div>
     </>
   )});
@@ -26,46 +20,45 @@ const Content = withRouter((props) => {
   Content.getInitialProps = async () => {
     let itemtypes, titles, tags, items;
     const res = await fetch(config.endpoint.replace('od6', 1));
-    const itemjson =await res.json()
+    const itemjson =await res.json();
       //Once data has come in, process it and set global var
-      items = itemjson.feed.entry.filter((item) => {
-        item.tags = item.gsx$tags.$t.split(',').map((t) => (t.trim()));
-        return  item.gsx$islive.$t === "1"
-      });
-  
-      itemtypes = [...new Set(
-        items.map((item) => (
-          item.gsx$itemtype.$t 
-          )
-        )
-      )];
-  
-      titles = [...new Set(
-        items.map((item) => (
-          item.gsx$title.$t
-        ))
-      )].filter(x => x!='');
-  
-      const allTags = [];
+    items = itemjson.feed.entry.filter((item) => {
+      item.tags = item.gsx$tags.$t.split(',').map((t) => (t.trim()));
+      return  item.gsx$islive.$t === "1"
+    });
+
+    itemtypes = [...new Set(
       items.map((item) => (
-        item.gsx$tags.$t.split(',')
-      )).filter(x => x!='').forEach((t) => {
-          t.forEach((r) => {
-            allTags.push(r.trim())
-          })
-        }
-      );
+        item.gsx$itemtype.$t 
+        )
+      )
+    )];
+
+    titles = [...new Set(
+      items.map((item) => (
+        item.gsx$title.$t
+      ))
+    )].filter(x => x!='');
+
+    const allTags = [];
+    items.map((item) => (
+      item.gsx$tags.$t.split(',')
+    )).filter(x => x!='').forEach((t) => {
+        t.forEach((r) => {
+          allTags.push(r.trim())
+        })
+      }
+    );
+
+    tags = [...new Set(allTags)];
   
-      tags = [...new Set(allTags)];
-  
-    return  {
-      items,
-      itemtypes,
-      titles,
-      loading: 'false',
-      tags
-    };
-  
-    }
+  return  {
+    items,
+    itemtypes,
+    titles,
+    loading: 'false',
+    tags
+  };
+}
     
-  export default Content
+export default Content

@@ -13,7 +13,7 @@ const Content = withRouter((props) => {
       </header>
       <div className="wide row">
 
-          <Head><title>Charmaine Yabsley - Freelance Health Journalist, author</title></Head>
+          <Head><title>Books by Charmaine Yabsley - Freelance Health Journalist, author</title></Head>
           <Items {...props}></Items>
       </div>
     </>
