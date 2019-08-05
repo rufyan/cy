@@ -21,7 +21,6 @@ body {
   font-size: 1.8em;
   font-family: $body-font;
   line-height: 1.5em;
-  overflow: hidden;
 }
 
 p {
@@ -137,7 +136,10 @@ nav {
   padding: 0 30px !important;
 
 }
+#__next{
+  overflow: hidden;
 
+}
 
 button {
   background: none;
@@ -147,10 +149,6 @@ button {
   &:focus {
     outline: 0
   }
-}
-
-.active {
-  background: $cy_offwhite;
 }
 
 header {
@@ -191,14 +189,17 @@ header {
     }
   }
 }
+
 .filter-holder {
   transition: height 1s, transform 1s;
-  //height: 300px; 
   overflow: hidden;
+
+  .active {
+    background: $cy_offwhite;
+  }
 
   &.hide{
     height: 0 !important;
-    // display: none;
   }
   li {
     display: inline-block;
@@ -274,8 +275,13 @@ header {
   grid-gap: 30px;
   align-items: center;
 
+  @include max-screen(sm) {
+    grid-template-columns: repeat(2, 1fr);  
+  }
+  
+
   article {
-    img {max-width: 170px;}
+    img {max-width: 150px;}
   }
 }
 
@@ -390,6 +396,10 @@ header {
   h2 {
     margin: 4rem 0 2rem;
   }
+}
+
+.copy-list li {
+  padding: 0 6rem 2rem;
 }
 
 footer {

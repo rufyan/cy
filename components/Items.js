@@ -32,17 +32,17 @@ class Items extends React.Component {
   }
 
   updateWindowDimensions() {
+    //TO DO - move filter to it's own component so that height can be set from itself
     this.setState({
       filtersVisible: window.innerWidth < 1140 ? false : true,
       filterHeight: this.props.tags.length + this.props.titles.length * (window.innerWidth > 1140 ? 
-        18 
-        : window.innerWidth > 800 ?
-         41 
-         : 53),
+        23 
+        : (window.innerWidth > 800 ?
+         35 
+         : 46)),
       width: window.innerWidth, 
       height: window.innerHeight
     });
-    console.log('w', window.innerWidth, 'filterh', this.props.tags.length + this.props.titles.length,  this.state.filterHeight)
   }
 
   handleTitleFilter(value){
@@ -84,6 +84,7 @@ class Items extends React.Component {
     }
     let filteredItems = this.props.items;
     let filterbyType = this.props.router ? this.props.router.query.title : null;
+    
     //filter by type
     if(type){
       filteredItems = filteredItems.filter((item) => (
@@ -108,7 +109,6 @@ class Items extends React.Component {
       )
     }
 
-
     filteredItems = filteredItems && filteredItems.sort((a,b) => {
       return new Date(b.gsx$datepublished.$t) - new Date(a.gsx$datepublished.$t);
     });
@@ -118,7 +118,6 @@ class Items extends React.Component {
       filteredItems = filteredItems && filteredItems.slice(0,4);
     }
 
-    //TODO Item Paging
     return filteredItems;
   }
 
@@ -147,7 +146,7 @@ class Items extends React.Component {
       tags= this.props.tags;
     }
 
-    this.state.filterHeight = this.props.tags.length + this.props.titles.length * (this.state.width > 1200 ? 25 : 42);
+   // this.state.filterHeight = this.props.tags.length + this.props.titles.length * (this.state.width > 1200 ? 25 : 42);
     
     return(
     <>
