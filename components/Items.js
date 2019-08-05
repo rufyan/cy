@@ -93,8 +93,7 @@ class Items extends React.Component {
     }else{
       
     }
-    console.log(this.props);
-
+   
     //filter by title
     if(this.state.filterByTitle && type !== 'Book'){
       filteredItems = filteredItems.filter((item) => (
@@ -109,8 +108,7 @@ class Items extends React.Component {
       ))
       )
     }
-    console.log(filteredItems.length);
-
+   
     filteredItems = filteredItems && filteredItems.sort((a,b) => {
       return new Date(b.gsx$datepublished.$t) - new Date(a.gsx$datepublished.$t);
     });
