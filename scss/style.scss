@@ -155,10 +155,13 @@ button {
     margin: 0 auto;
     display:block;
     position: relative;
-    width:100%;
+    width:10rem;
     text-align: left;
     font-family: $body-font;
     padding: 2em 0; 
+      
+      &.hide { display:none}
+
   }
 
   &:focus {
@@ -193,7 +196,7 @@ header {
     left: 50%;
     top:2em;
   }
-  &.hide{
+  &.hide-filters{
     &:after{
       transform:rotate(180deg)
     }
@@ -267,7 +270,6 @@ header {
   }
 }
 
-.hide { display:none}
 
 .span-col-4 {
   grid-column: span 4 / auto;
