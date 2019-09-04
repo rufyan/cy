@@ -11,8 +11,8 @@ Merge changes in to production and push
 
 
 ##To do
+* Add lang to html tag
 * Break out Filters to it's own component for reusability and self height declaring -remove interim fixed height issue
-* "Add to home screen" button - fails
+* "Add to home screen" button - removed (fix this)
 * endpoint fetch to wait for service worker
-* pagination of articles
-* https redirect
+

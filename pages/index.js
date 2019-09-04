@@ -9,6 +9,7 @@ const Index = withRouter((props) => {
     <>
       <Head>
         <title>Charmaine Yabsley - Freelance Health Journalist</title>
+        <meta name="Description" content="Charmaine Yabsley - Media Consultant, Writer, Health Journalist"></meta>
       </Head>
 
       <main className="wide row home">

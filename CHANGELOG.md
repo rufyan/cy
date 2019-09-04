@@ -1,3 +1,9 @@
+#1.0.2 2019-09-04
+* feautre_audit_tweaks Audit tweaks. html lang to be added
+
+#1.0.1 2019-09-04
+* Slice articles with show all button. Dev mode
+
 #1.0.0 2019-08-05
 * Site launch
 
