@@ -8,7 +8,7 @@ const Content = withRouter((props) => {
   return( 
     <>
       <header {...props}>
-        <h1>Articles</h1>
+        <h1>Articles </h1>
       </header>
       <div className="wide row">
         <Head><title>Articles by Charmaine Yabsley - Freelance Health Journalist, health writer</title></Head>
@@ -24,7 +24,8 @@ const Content = withRouter((props) => {
       //Once data has come in, process it and set global var
     items = itemjson.feed.entry.filter((item) => {
       item.tags = item.gsx$tags.$t.split(',').map((t) => (t.trim()));
-      return  item.gsx$islive.$t === "1"
+      //add items to local array if dev mode, add only live items in production mode
+      return process.env.NODE_ENV !== 'production' ? item : item.gsx$islive.$t === "1"
     });
 
     itemtypes = [...new Set(
