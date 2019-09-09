@@ -10,7 +10,11 @@ const Content = withRouter((props) => {
         <h1>Content creation</h1>
       </header>
       <div className="wide row">
-          <Head><title>Charmaine Yabsley - Freelance Health Journalist, content creator</title></Head>
+          <Head>
+            <title>Charmaine Yabsley - Freelance Health Journalist, content creator</title>
+            <meta name="Description" content="Charmaine Yabsley - content creator, brand voice, PR campaign"></meta>
+
+            </Head>
           <section className='copy' dangerouslySetInnerHTML={{__html: props.content}}>
           </section>
       </div>

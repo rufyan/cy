@@ -13,14 +13,18 @@ const Content = withRouter((props) => {
       </header>
       <div className="wide row">
 
-          <Head><title>Books by Charmaine Yabsley - Freelance Health Journalist, author</title></Head>
+          <Head>
+            <title>Books by Charmaine Yabsley - Health Journalist, author</title>
+            <meta name="Description" content="Charmaine Yabsley - published author of health and beauty books"></meta>
+
+          </Head>
           <Items {...props}></Items>
       </div>
     </>
   )})
  
   Content.getInitialProps = async () => {
-    let itemTypes, titles, tags, items;
+    let itemtypes, titles, tags, items;
     const res = await fetch(config.endpoint);
     const itemjson =await res.json()
       //Once data has come in, process it and set global var
@@ -29,7 +33,7 @@ const Content = withRouter((props) => {
         return  item.gsx$islive.$t === "1"
       });
   
-      itemTypes = [...new Set(
+      itemtypes = [...new Set(
         items.map((item) => (
           item.gsx$itemtype.$t 
           )
@@ -56,7 +60,7 @@ const Content = withRouter((props) => {
   
     return  {
       items,
-      itemTypes,
+      itemtypes: itemtypes,
       titles,
       loading: 'false',
       tags
