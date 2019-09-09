@@ -11,7 +11,10 @@ const Content = withRouter((props) => {
         <h1>Articles </h1>
       </header>
       <div className="wide row">
-        <Head><title>Articles by Charmaine Yabsley - Freelance Health Journalist, health writer</title></Head>
+        <Head>
+          <title>Articles by Charmaine Yabsley - Freelance Health Journalist, health writer</title>
+          <meta name="Description" content="Charmaine Yabsley - Articles published by Body+Soul, Nature & Health, HCF, The Age"></meta>
+        </Head>
         <Items {...props} data={"articles"}></Items>
       </div>
     </>
