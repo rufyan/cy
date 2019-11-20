@@ -15,7 +15,7 @@ class Header extends React.Component  {
   return  (
     <nav className="wide">
      <Link href="/">
-        <a className="logo"  onClick={() => this.handleMobilemenuClick(this.state.mobileclicked)}>Charmaine Yabsley</a>
+        <a className="logo">Charmaine Yabsley</a>
     </Link>
      <ul className={`main-menu__items ${this.state.mobileclicked ? 'mobile-active':''}`}>
        <li>
