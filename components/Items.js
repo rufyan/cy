@@ -1,9 +1,4 @@
-import fetch from 'isomorphic-unfetch';
 import Item from '../components/Item';
-
-let items = [];
-let type = '';
-let page = '';
 
 class Items extends React.Component {
   constructor(props){
@@ -13,81 +8,68 @@ class Items extends React.Component {
       loading : 'initial',
       filterByTitle : '',
       filterByTag : '',
-      sortByDate :'desc'
+      sortByDate :'desc',
+      type : '',
+      filtersVisible : true,
+      width: 0, 
+      height: 0,
+      filterHeight: 0,
+      firstLoad : true
     }
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
-  loadData(){
-    const data= fetch('https://spreadsheets.google.com/feeds/list/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0/od6/public/values?alt=json')
-    .then(response => response.json());
-    return data;
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
   }
 
-  componentDidMount(){
-    // this.setState({loading : 'true'});
-    // this.loadData()
-    // .then((res) => {
-    //   //Once data has come in, process it and set global var
-    //   items = res.feed.entry.filter((item) => {
-    //     item.tags = item.gsx$tags.$t.split(',').map((t) => (t.trim()));
-    //     return  item.gsx$islive.$t === "1"
-    //   });
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
 
-    //   const itemTypes = [...new Set(
-    //     items.map((item) => (
-    //       item.gsx$itemtype.$t 
-    //       )
-    //     )
-    //   )];
-  
-    //   const titles = [...new Set(
-    //     items.map((item) => (
-    //       item.gsx$title.$t
-    //     ))
-    //   )].filter(x => x!='');
+  updateWindowDimensions() {
+    //TO DO - move filter to it's own component so that height can be set from itself
+    this.setState({
+      filtersVisible: window.innerWidth < 1140 ? false : true,
+      filterHeight: this.props.tags.length + this.props.titles.length * (window.innerWidth > 1140 ? 
+        23 
+        : (window.innerWidth > 800 ?
+         35 
+         : 46)),
+      width: window.innerWidth, 
+      height: window.innerHeight
+    });
+  }
 
-    //   const allTags = [];
-    //   items.map((item) => (
-    //     item.gsx$tags.$t.split(',')
-    //   )).filter(x => x!='').forEach((t) => {
-    //       t.forEach((r) => {
-    //         allTags.push(r.trim())
-    //       })
-    //     }
-    //   );
-
-    //   const tags = [...new Set(allTags)];
-
-
-            
-    //   this.setState({
-    //     items,
-    //     itemTypes,
-    //     titles,
-    //     loading: 'false',
-    //     tags
-    //   });
-    // });
+  handleShowAll(){
+      this.setState({
+      firstLoad : false
+    })
   }
 
   handleTitleFilter(value){
-    if(value !=='all'){
+    switch(value){
+      case 'all' : case this.state.filterByTitle:
+          this.setState({
+            filterByTitle : '',
+            filterByTag : ''
+          })
+          break;
+      default :
       this.setState({
-        filterByTitle : value
+        filterByTitle : value,
+        filterByTag : ''
       })
-    }
-    else{
-      this.setState({
-        filterByTitle : ''
-      })
-  
+      break;
     }
   }
 
   handleTagFilter(value){
     if(value !=='all'){
       this.setState({
-        filterByTag : value
+        filterByTag : value,
+        filterByTitle : ''
       })
     }
     else{
@@ -98,63 +80,58 @@ class Items extends React.Component {
   }
 
   getFilteredItems(){
-    if(this.props.router){
-      type = this.props.router.query.title;
-    }else{
-      type = '';
-    }
     let filteredItems = this.props.items;
+    //Set item type from page - passed in from links via server.js
     let filterbyType = this.props.router ? this.props.router.query.title : null;
+    
+
     //filter by type
-    if(type){
+    if(filterbyType){
       filteredItems = filteredItems.filter((item) => (
         item.gsx$itemtype.$t === filterbyType
       ));
-    }else{
-      
     }
-    console.log(this.props);
-
+   
     //filter by title
-    if(this.props.filterByTitle && type !== 'Book'){
-      console.log(this.props.filterByTitle);
+    if(this.state.filterByTitle && filterbyType !== 'Book'){
       filteredItems = filteredItems.filter((item) => (
         item.gsx$title.$t === this.state.filterByTitle
         )
       );
     }
 
-    if(this.props.filterByTag && type !== 'Book'){
+    //filter by tag
+    if(this.props.filterByTag && filterbyType !== 'Book'){
       filteredItems = filteredItems.filter((item) =>(
         item.tags.some((t) => ( t === this.state.filterByTag)
       ))
       )
     }
-    console.log(filteredItems.length);
-
-    filteredItems = filteredItems.sort((a,b) => {
+   
+    //sort filtered items
+    filteredItems = filteredItems && filteredItems.sort((a,b) => {
       return new Date(b.gsx$datepublished.$t) - new Date(a.gsx$datepublished.$t);
     });
 
-    if(this.props.data ==='home'){
-      page = 'home';
-      filteredItems = filteredItems.slice(0,4);
+    //slice if no other filters set
+    if(this.state.filterByTag ==='' && this.state.filterByTitle ===''
+      && this.state.firstLoad){
+      filteredItems = filteredItems && filteredItems.slice(0,9);
     }
+
     return filteredItems;
   }
 
-  render(){
-    // if (this.state.loading === 'initial') {
-    //   return <h2>Intializing...</h2>;
-    // }
+  showHideFilter(show){
+    this.setState({
+      filtersVisible : show ? false: true,
+    });
+  }
 
-    // if (this.state.loading === 'true') {
-    //   return <h2>Loading...</h2>;
-    // }
-    
+  render(){
+   
     //Only render data once loading is false
     const filteredItems = this.getFilteredItems();
-
     //Put title filters in a local var, unless the type is "Book"
     let titles = [];
     if(this.props.router && this.props.router.query.title ==='Book'){
@@ -169,20 +146,20 @@ class Items extends React.Component {
     }else{
       tags= this.props.tags;
     }
-
+ 
     return(
     <>
-    {page !== 'home' &&
-      <div className="filter-holder">
+    {this.props.router.query.title !== 'Book' &&
+      <>
+      <button onClick={() => {this.showHideFilter(this.state.filtersVisible)}} className={`cta show-filters ${this.state.filtersVisible ? "hide-filters" : ""}`}>Filters</button>
+      <div className={`filter-holder ${this.state.filtersVisible ? "" : "hide"}`} style={{height:this.state.filterHeight+'px'}}>
         {titles  &&
         (
           <section>
-          <p>Filter by title:</p>
+          <p>Titles</p>
           <div className="span-col-4">
             {titles && (titles.map((item, i) =>(
-              
               <button onClick={() => {this.handleTitleFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
-              
             )))}
           </div>
           <button onClick={() => {this.handleTitleFilter("all")}}  className={`clear-filters ${"all" === this.state.filterByTitle ? 'active':''}`}>Show all</button>
@@ -192,23 +169,25 @@ class Items extends React.Component {
         {tags &&
         (
           <section>
-          <p>Filter by tags:</p>
+          <p>Tags:</p>
           <div className="span-col-4">
             {tags && (tags.map((item, i) =>(
-              <button onClick={() => {this.handleTagFilter(item)}} key={i} className={item === this.state.filterByTitle ? 'active':''}>{item}</button>
+              <button onClick={() => {this.handleTagFilter(item === this.state.filterByTag ? 'all' : item )}} key={i} className={item === this.state.filterByTag ? 'active':''}>{item}</button>
             )))}
           </div>
-          <button onClick={() => {this.handleTagFilter("all")}}  className={`clear-filters ${"all" === this.state.filterByTitle ? 'active':''}`}>Show all</button>
+          <button onClick={() => {this.handleTagFilter("all")}}  className={`clear-filters ${"all" === this.state.filterByTag ? 'active':''}`}>Show all</button>
           </section>
         )}
         </div>
+        </>
       }
       <section className="grid items">
-        {filteredItems.map((item, i) =>  (
+        {filteredItems && filteredItems.map((item, i) =>  (
           <Item {...item} key={i}></Item>
           )
         )}
       </section>
+      <button onClick={() => {this.handleShowAll()}} className={`cta ${this.state.firstLoad ? '' : 'hide'}`}>Show all</button>
     </>
   )
 }

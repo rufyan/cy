@@ -1,31 +1,41 @@
 import Head from 'next/head';
 import {withRouter} from 'next/router';
+import config from '../config'
 
 
 const Content = withRouter((props) => {
-  console.log(props)
   return(
     <>
       <header {...props}>
-        <h1>{props.router.query.title}</h1>
+        <h1>Content creation</h1>
       </header>
       <div className="wide row">
-          <Head><title>Cyte - {props.router.query.title}</title></Head>
-          <section className='copy'>
-            <h2>Charmaine creates PR or copywriting campaigns.</h2>
+          <Head>
+            <title>Charmaine Yabsley - Freelance Health Journalist, content creator</title>
+            <meta name="Description" content="Charmaine Yabsley - content creator, brand voice, PR campaign"></meta>
 
-            <p>
-              Whether you're after regular social media output and updates, brochures, advertorials, real-life stories, recipes, wellness plans or just good old-fashioned copy.
-            </p><p>
-            Previous and current clients include Bupa, Blackmores, Alpro Soya, Fertell, Omega-3, Pomegranate and Fruity Beauty campaigns.
-            </p><p>
-            View Charmaine's work for Bupa's Blue Room.
-            </p><p>
-            Please contact at charmaine.yabsley[at]gmail.com to discuss content and copywriting needs.
-            </p>
+            </Head>
+          <section className='copy' dangerouslySetInnerHTML={{__html: props.content}}>
           </section>
       </div>
     </>
   )})
-    
+
+  Content.getInitialProps = async () => {
+    let content;
+    const endpoint = config.endpoint.replace('od6', 2)
+    const res = await fetch(endpoint);
+    const itemjson =await res.json()
+    itemjson.feed.entry.filter((item) => {
+      
+      if(item.gsx$page.$t ==='content' ){
+        content = item.gsx$html.$t ;
+      }
+    });
+  
+    return {
+      content
+    };
+  }
+
   export default Content

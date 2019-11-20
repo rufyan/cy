@@ -1,36 +1,27 @@
 import React from 'react'
-import {createStore} from "redux";
 import App, { Container } from 'next/app'
 import Page from '../components/Page'
-import withReduxStore from 'next-redux-wrapper'
-import { Provider } from 'react-redux'
 
-const reducer = (state = {foo: ''}, action) => {
-  switch (action.type) {
-      case 'getData':
-          return {...state, foo: action.payload};
-      default:
-          return state
+export default class MyApp extends App {
+  static async getInitialProps({ Component, ctx }) {
+    let pageProps = {}
+
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx)
+    }
+
+    return { pageProps }
   }
-};
 
-const makeStore = (initialState, options) => {
-  return createStore(reducer, initialState);
-};
-
-class MyApp extends App {
   render () {
-    const { Component, pageProps, reduxStore } = this.props
+    const { Component, pageProps } = this.props
+
     return (
       <Container>
-        <Provider store={reduxStore}>
-          <Page>
-            <Component {...pageProps} />
-          </Page>
-        </Provider>
+        <Page>
+          <Component {...pageProps} />
+        </Page>
       </Container>
     )
   }
 }
-
-export default withReduxStore(makeStore)(MyApp)
