@@ -317,3 +317,29 @@ footer {
     padding: 0 2rem;
   }
 }
+
+@font-face {
+  font-family: 'fab';
+  src: url('/static/fonts/fontawesome-webfont.woff2')
+}
+
+.fab {
+  font-family: fab;
+  font-style: normal;
+}
+
+.fa-envelope-square:before {
+  content: "\f199";
+}
+
+.fa-twitter-square:before {
+  content: "\f081";
+}
+
+.fa-linkedin:before {
+  content: "\f08c";
+}
+
+.fa-instagram:before {
+  content: "\f16d";
+}
