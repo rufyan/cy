@@ -1,6 +1,7 @@
 {
     "name": "cy",
     "version": "1.0.0",
+    "type": "module",
     "description": "",
     "main": "index.js",
     "scripts": {
@@ -27,12 +28,16 @@
         "react-css-grid": "^2.0.0-0",
         "react-dom": "^16.7.0",
         "react-redux": "^6.0.1",
-        "redux": "^4.0.1",
+        "redux": "^4.0.5",
         "terser": "^3.14.1",
         "url-loader": "^1.1.2"
     },
     "devDependencies": {
         "eslint": "^5.14.1",
-        "eslint-plugin-react": "^7.12.4"
+        "eslint-plugin-react": "^7.12.4",
+        "next-redux-wrapper": "^6.0.2",
+        "redux-devtools": "^3.5.0",
+        "redux-logger": "^3.0.6",
+        "redux-thunk": "^2.3.0"
     }
 }
