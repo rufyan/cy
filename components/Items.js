@@ -30,16 +30,16 @@ class Items extends React.Component {
 
   updateWindowDimensions() {
     //TO DO - move filter to it's own component so that height can be set from itself
-    this.setState({
-      filtersVisible: window.innerWidth < 1140 ? false : true,
-      filterHeight: this.props.tags.length + this.props.titles.length * (window.innerWidth > 1140 ? 
-        23 
-        : (window.innerWidth > 800 ?
-         35 
-         : 46)),
-      width: window.innerWidth, 
-      height: window.innerHeight
-    });
+    // this.setState({
+    //   filtersVisible: window.innerWidth < 1140 ? false : true,
+    //   filterHeight: this.props.tags.length + this.props.titles.length * (window.innerWidth > 1140 ? 
+    //     23 
+    //     : (window.innerWidth > 800 ?
+    //      35 
+    //      : 46)),
+    //   width: window.innerWidth, 
+    //   height: window.innerHeight
+    // });
   }
 
   handleShowAll(){
@@ -149,7 +149,7 @@ class Items extends React.Component {
  
     return(
     <>
-    {this.props.router.query.title !== 'Book' &&
+    {/* {this.props.router.query.title !== 'Book' &&
       <>
       <button onClick={() => {this.showHideFilter(this.state.filtersVisible)}} className={`cta show-filters ${this.state.filtersVisible ? "hide-filters" : ""}`}>Filters</button>
       <div className={`filter-holder ${this.state.filtersVisible ? "" : "hide"}`} style={{height:this.state.filterHeight+'px'}}>
@@ -180,7 +180,7 @@ class Items extends React.Component {
         )}
         </div>
         </>
-      }
+      } */}
       <section className="grid items">
         {filteredItems && filteredItems.map((item, i) =>  (
           <Item {...item} key={i}></Item>

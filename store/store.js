@@ -3,7 +3,7 @@ import React, { createContext, useReducer } from 'react';
 export const Store = createContext();
 
 const initialState = {
-  items: [],
+  data: [],
   filters: {
       filtersVisible: true,
       filterByType: '',
@@ -16,7 +16,7 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case 'FETCH_DATA':
-      return { ...state, items: action.payload };
+      return { ...state, data: action.payload };
     case 'FILTER_BY_TYPE':
       return { ...state, filters: action.payload };
     default:

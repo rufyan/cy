@@ -41,7 +41,13 @@ export const getData = async dispatch => {
 
   return dispatch({
     type: 'FETCH_DATA',
-    payload: items
+    payload: {
+        items,
+        itemTypes,
+        titles,
+        loading: 'false',
+        tags
+      }
   })
   // return {
   //   items,

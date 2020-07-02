@@ -1,3 +1,6 @@
+#2.0.0 2020-07-03
+* feature-stateman - Articles set up to use Context API and Hooks. Requires filtering to be set in global state
+
 #1.0.2 2019-09-04
 * feautre_audit_tweaks Audit tweaks. html lang to be added
 

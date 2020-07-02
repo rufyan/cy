@@ -22,7 +22,7 @@ const Content = withRouter((props) => {
       </div>
     </>
   )})
- 
+//  This can all go
   Content.getInitialProps = async () => {
     let itemtypes, titles, tags, items;
     const res = await fetch(config.endpoint);

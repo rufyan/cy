@@ -12,7 +12,7 @@ const Index = withRouter((props) => {
   const { state, dispatch } = useContext(Store);
 
   useEffect(() => {
-    state.items.length === 0 && GetData(dispatch);
+    state.data.length === 0 && GetData(dispatch);
   }, [state, dispatch]);
   //const items = GetData(dispatch)
   console.log(state)
@@ -34,8 +34,11 @@ const Index = withRouter((props) => {
     </>
 )});
 
+//Need to put this in actions/getData
+//try to access all worksheets in one hit, not 3
 Index.getInitialProps = async () => {
   let homecontent, recent;
+  //'2' refers to the 'copy' sheet
   const endpoint = config.endpoint.replace('od6', 2);
   const res = await fetch(endpoint);
   const itemjson =await res.json()
@@ -45,7 +48,7 @@ Index.getInitialProps = async () => {
       homecontent = item.gsx$html.$t ;
     }
   });
-
+  //'3' refers to the 'recent' sheet - not currently used, but should be
   const endpointrecent = config.endpoint.replace('od6', 3);
   const resrecent = await fetch(endpointrecent);
   const itemrecentjson =await resrecent.json();
@@ -57,7 +60,6 @@ Index.getInitialProps = async () => {
         image: item.gsx$image.$t,
       }
     })
-
 
   return {
     homecontent,
