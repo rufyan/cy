@@ -1,10 +1,21 @@
+import React, {useContext, useEffect} from 'react';
 import {withRouter} from 'next/router';
 import Recently from '../components/Recently';
 import fetch from 'isomorphic-unfetch';
 import Head from 'next/head'
 import config from '../config'
+import {Store} from '../store/store'
+import GetData from '../actions/getData'
+
 
 const Index = withRouter((props) => {
+  const { state, dispatch } = useContext(Store);
+
+  useEffect(() => {
+    state.items.length === 0 && GetData(dispatch);
+  }, [state, dispatch]);
+  //const items = GetData(dispatch)
+  console.log(state)
   return (
     <>
       <Head>

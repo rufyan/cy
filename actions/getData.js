@@ -2,20 +2,19 @@ import fetch from 'isomorphic-unfetch';
 
 import config from '../config';
 
-const getData = async () => {
+export const getData = async dispatch => {
   let itemTypes, titles, tags, items;
   // const data= fetch(config.endpoint)
   // .then(response => response.json());
   // console.log('fetch', data);
 
   const res = await fetch(config.endpoint);
-  console.log('res', res)
   const itemjson = await res.json()
   //Once data has come in, process it and set global var
   items = itemjson.feed.entry.filter((item) => {
     item.tags = item.gsx$tags.$t.split(',').map((t) => (t.trim()));
-    return item.gsx$islive.$t === "1"
-  }).splice(0, 3);
+    return process.env.NODE_ENV !== 'production' ? item : item.gsx$islive.$t === "1"
+  });
 
   itemTypes = [...new Set(
     items.map((item) => (
@@ -40,13 +39,17 @@ const getData = async () => {
 
   tags = [...new Set(allTags)];
 
-  return {
-    items,
-    itemTypes,
-    titles,
-    loading: 'false',
-    tags
-  };
+  return dispatch({
+    type: 'FETCH_DATA',
+    payload: items
+  })
+  // return {
+  //   items,
+  //   itemTypes,
+  //   titles,
+  //   loading: 'false',
+  //   tags
+  // };
 }
 
 export default getData;
