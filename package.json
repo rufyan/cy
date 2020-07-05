@@ -22,7 +22,7 @@
         "next": "^7.0.2",
         "next-images": "^1.0.4",
         "next-offline": "^4.0.2",
-        "node-sass": "^4.11.0",
+        "node-sass": "^4.13.1",
         "react": "^16.8.6",
         "react-css-grid": "^2.0.0-0",
         "react-dom": "^16.8.6",

@@ -2,14 +2,14 @@ import {useContext, useEffect} from 'react';
 import Head from 'next/head';
 import {withRouter} from 'next/router';
 import {Store} from '../store/store'
-import GetData from '../actions/getData'
+import GetItemData from '../actions/getData'
 import Items from '../components/Items';
 
 const Content = withRouter((props) => {
   const { state, dispatch } = useContext(Store);
 
   useEffect(() => {
-    state.data.length === 0 && GetData(dispatch);
+    state.data.length === 0 && GetItemData(dispatch);
   }, [state, dispatch]);
   return( 
     <>

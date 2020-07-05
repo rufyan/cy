@@ -7,7 +7,8 @@ class Recently extends React.Component {
     constructor(props){
         super(props)
     };
-//                    {this.props.map((item, i) => ( - doesn't iterate through objects array
+
+    //this isn't fetching properly - cors
     getImage = async (image) => {
         const header = new Headers({
             'Access-Control-Allow-Origin':'*',
@@ -19,7 +20,6 @@ class Recently extends React.Component {
             header: header,
             body: ''
         }
-
         return await fetch(image, {sendData})
             .then((response) => {return response.blob()})
             .then((response) => {return URL.createObjectURL(response)})
@@ -28,30 +28,17 @@ class Recently extends React.Component {
 
 
     render(){
-
-        // let recents= [];
-        // for (const key of Object.entries(this.props)) {
-            
-        //     // const r =  this.getImage(key[1].image);
-        //     // console.log('r',typeof r)
-            
-        //     recents.push(
-        //         <article key={key[0]}>
-        //             <img src={key[1].image} alt={key[1].logo} key={key[0]}/>
-        //         </article>
-        //     );
-        // }
-
         return (
             <div className='copy'>
                 <h2>Recently worked with:</h2>
                 <section className='recently'> 
-                {/* {recents} */}
-                    {config.recently.map((item, i) => (
+                    {this.props.recent && Array.from(this.props.recent).map((item, i) => {
+                        return (
                     <article key={i}>
-                        <img src={`./static/images/logos/${item.logo}`} alt={item.name} key={i}/>
+                        <img src={`${this.getImage(item.image)}`} alt={item.logo} key={i}/>
                     </article>
-                    ))}         
+                    )}
+                    )}         
                 </section>
             </div>
         )

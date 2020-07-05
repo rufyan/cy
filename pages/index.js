@@ -5,17 +5,20 @@ import fetch from 'isomorphic-unfetch';
 import Head from 'next/head'
 import config from '../config'
 import {Store} from '../store/store'
-import GetData from '../actions/getData'
+import {getRecentData, getContentData} from '../actions/getData'
 
 
 const Index = withRouter((props) => {
   const { state, dispatch } = useContext(Store);
 
   useEffect(() => {
-    state.data.length === 0 && GetData(dispatch);
+    state.content.length === 0 && getContentData(dispatch);
   }, [state, dispatch]);
-  //const items = GetData(dispatch)
-  console.log(state)
+  useEffect(() => {
+    state.recent.length === 0 && getRecentData(dispatch);
+  }, [state, dispatch]);
+  
+console.log(state)  
   return (
     <>
       <Head>
@@ -27,44 +30,44 @@ const Index = withRouter((props) => {
       <section className="intro-home">
         <h1>Charmaine Yabsley <span>Freelance health journalist</span></h1>
       </section>
-      <article className='copy' dangerouslySetInnerHTML={{__html: props.homecontent}}>
+      <article className='copy' dangerouslySetInnerHTML={{__html: state.content.homecontent}}>
       </article>
-      <Recently {...props.recent}></Recently>
+      <Recently {...state.recent}></Recently>
       </main>
     </>
 )});
 
 //Need to put this in actions/getData
 //try to access all worksheets in one hit, not 3
-Index.getInitialProps = async () => {
-  let homecontent, recent;
-  //'2' refers to the 'copy' sheet
-  const endpoint = config.endpoint.replace('od6', 2);
-  const res = await fetch(endpoint);
-  const itemjson =await res.json()
-  itemjson.feed.entry.filter((item) => {
+// Index.getInitialProps = async () => {
+//   let homecontent, recent;
+//   //'2' refers to the 'copy' sheet
+//   const endpoint = config.endpoint.replace('od6', 2);
+//   const res = await fetch(endpoint);
+//   const itemjson =await res.json()
+//   itemjson.feed.entry.filter((item) => {
     
-    if(item.gsx$page.$t ==='home' ){
-      homecontent = item.gsx$html.$t ;
-    }
-  });
-  //'3' refers to the 'recent' sheet - not currently used, but should be
-  const endpointrecent = config.endpoint.replace('od6', 3);
-  const resrecent = await fetch(endpointrecent);
-  const itemrecentjson =await resrecent.json();
+//     if(item.gsx$page.$t ==='home' ){
+//       homecontent = item.gsx$html.$t ;
+//     }
+//   });
+//   //'3' refers to the 'recent' sheet - not currently used, but should be
+//   const endpointrecent = config.endpoint.replace('od6', 3);
+//   const resrecent = await fetch(endpointrecent);
+//   const itemrecentjson =await resrecent.json();
 
-  recent =
-    itemrecentjson.feed.entry.map((item) => {
-      return {
-        logo: item.gsx$company.$t,
-        image: item.gsx$image.$t,
-      }
-    })
+//   recent =
+//     itemrecentjson.feed.entry.map((item) => {
+//       return {
+//         logo: item.gsx$company.$t,
+//         image: item.gsx$image.$t,
+//       }
+//     })
 
-  return {
-    homecontent,
-    recent
-  };
-}
+//   return {
+//     homecontent,
+//     recent
+//   };
+// }
 
 export default Index

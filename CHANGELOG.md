@@ -1,3 +1,6 @@
+#2.0.1 2020-07-05
+* content moved into global state. This seems like overkill. Recently worked with is pulling from ss but images not pulling correctly.
+
 #2.0.0 2020-07-03
 * feature-stateman - Articles set up to use Context API and Hooks. Requires filtering to be set in global state
 
