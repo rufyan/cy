@@ -22,7 +22,7 @@ const Content = withRouter((props) => {
           <meta name="Description" content="Charmaine Yabsley - Articles published by Body+Soul, Nature & Health, HCF, The Age"></meta>
         </Head>
         {/* Need to pass routes into here, or put them in state */}
-        <Items {...state.data} data={"articles"}></Items>
+        <Items {...state.data} data={"article"}></Items>
       </div>
     </>
   )});

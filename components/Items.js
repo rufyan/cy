@@ -82,14 +82,14 @@ class Items extends React.Component {
   getFilteredItems(){
     let filteredItems = this.props.items;
     //Set item type from page - passed in from links via server.js
-    let filterbyType = this.props.router ? this.props.router.query.title : null;
+    let filterbyType = this.props.data ? this.props.data : null;
     
 
     //filter by type
-    if(filterbyType){
-      filteredItems = filteredItems.filter((item) => (
-        item.gsx$itemtype.$t === filterbyType
-      ));
+    if(filterbyType && filteredItems){
+      filteredItems = filteredItems.filter((item) => {
+        return(item.gsx$itemtype.$t.toLowerCase() === filterbyType
+      )});
     }
    
     //filter by title
@@ -134,7 +134,7 @@ class Items extends React.Component {
     const filteredItems = this.getFilteredItems();
     //Put title filters in a local var, unless the type is "Book"
     let titles = [];
-    if(this.props.router && this.props.router.query.title ==='Book'){
+    if(this.props.router && this.props.data ==='book'){
       titles = null;
     }else{
       titles= this.props.titles;
@@ -149,7 +149,7 @@ class Items extends React.Component {
  
     return(
     <>
-    {/* {this.props.router.query.title !== 'Book' &&
+    {this.props.data !== 'book' &&
       <>
       <button onClick={() => {this.showHideFilter(this.state.filtersVisible)}} className={`cta show-filters ${this.state.filtersVisible ? "hide-filters" : ""}`}>Filters</button>
       <div className={`filter-holder ${this.state.filtersVisible ? "" : "hide"}`} style={{height:this.state.filterHeight+'px'}}>
@@ -180,7 +180,7 @@ class Items extends React.Component {
         )}
         </div>
         </>
-      } */}
+      }
       <section className="grid items">
         {filteredItems && filteredItems.map((item, i) =>  (
           <Item {...item} key={i}></Item>

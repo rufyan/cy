@@ -18,7 +18,7 @@ const Content = withRouter((props) => {
             <meta name="Description" content="Charmaine Yabsley - published author of health and beauty books"></meta>
 
           </Head>
-          <Items {...props}></Items>
+          <Items {...props} data="book"></Items>
       </div>
     </>
   )})
