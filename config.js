@@ -1,6 +1,6 @@
 export default {
     path: "https://www.charmaineyabsley.com.au/",
-    endpoint: 'https://sheets.googleapis.com/v4/spreadsheets/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0/values/work?key=AlzaSyA0fl1DHWrVoHOeYKmVsFojBafeGpc2Fbl',
+    endpoint: 'https://docs.google.com/spreadsheets/d/1USp6UQtQqJYWlwPj0tZaIDnbsL51NSHCes09cFDDum0/edit?usp=sharing',
     recently : [
         {name: "HCF", logo : "logo_hcf1.png"}, 
         {name: "Nature and Health", logo : "natureandhealth.gif",},

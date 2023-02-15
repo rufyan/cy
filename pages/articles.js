@@ -3,6 +3,18 @@ import {withRouter} from 'next/router';
 import fetch from 'isomorphic-unfetch';
 import Items from '../components/Items';
 import config from '../config';
+import { getSpreadsheetData } from '../api/getSpreadsheet';
+
+export async function getStaticProps() {
+  // Get external data from the file system, API, DB, etc.
+  const data = await getVideoData();
+
+  // The value of the `props` key will be
+  //  passed to the `Home` component
+  return {
+    props: { data },
+  };
+}
 
 const Content = withRouter((props) => {
   return( 
@@ -21,48 +33,49 @@ const Content = withRouter((props) => {
   )});
 
   Content.getInitialProps = async () => {
-    let itemtypes, titles, tags, items;
-    const res = await fetch(config.endpoint.replace('od6', 1));
-    const itemjson =await res.json();
-      //Once data has come in, process it and set global var
-    items = itemjson.feed.entry.filter((item) => {
-      item.tags = item.gsx$tags.$t.split(',').map((t) => (t.trim()));
-      //add items to local array if dev mode, add only live items in production mode
-      return process.env.NODE_ENV !== 'production' ? item : item.gsx$islive.$t === "1"
-    });
+    const ss = getSpreadsheetData;
+  //   let itemtypes, titles, tags, items;
+  //   const res = await fetch(config.endpoint.replace('od6', 1));
+  //   const itemjson =await res.json();
+  //     //Once data has come in, process it and set global var
+  //   items = itemjson.feed.entry.filter((item) => {
+  //     item.tags = item.gsx$tags.$t.split(',').map((t) => (t.trim()));
+  //     //add items to local array if dev mode, add only live items in production mode
+  //     return process.env.NODE_ENV !== 'production' ? item : item.gsx$islive.$t === "1"
+  //   });
 
-    itemtypes = [...new Set(
-      items.map((item) => (
-        item.gsx$itemtype.$t 
-        )
-      )
-    )];
+  //   itemtypes = [...new Set(
+  //     items.map((item) => (
+  //       item.gsx$itemtype.$t 
+  //       )
+  //     )
+  //   )];
 
-    titles = [...new Set(
-      items.map((item) => (
-        item.gsx$title.$t
-      ))
-    )].filter(x => x!='');
+  //   titles = [...new Set(
+  //     items.map((item) => (
+  //       item.gsx$title.$t
+  //     ))
+  //   )].filter(x => x!='');
 
-    const allTags = [];
-    items.map((item) => (
-      item.gsx$tags.$t.split(',')
-    )).filter(x => x!='').forEach((t) => {
-        t.forEach((r) => {
-          allTags.push(r.trim())
-        })
-      }
-    );
+  //   const allTags = [];
+  //   items.map((item) => (
+  //     item.gsx$tags.$t.split(',')
+  //   )).filter(x => x!='').forEach((t) => {
+  //       t.forEach((r) => {
+  //         allTags.push(r.trim())
+  //       })
+  //     }
+  //   );
 
-    tags = [...new Set(allTags)];
+  //   tags = [...new Set(allTags)];
   
-  return  {
-    items,
-    itemtypes,
-    titles,
-    loading: 'false',
-    tags
-  };
+  // return  {
+  //   items,
+  //   itemtypes,
+  //   titles,
+  //   loading: 'false',
+  //   tags
+  // };
 }
     
 export default Content
