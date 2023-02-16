@@ -1,10 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
 import {getContent} from './api/sheets'
+import Items from '../components/Items'
 
-const inter = Inter({ subsets: ['latin'] })
      
 export async function getServerSideProps(context:any) {
   const sheet = await getContent('Article');
@@ -27,8 +25,8 @@ export default function Home({data}) {
           <title>Articles by Charmaine Yabsley - Freelance Health Journalist, health writer</title>
           <meta name="Description" content="Charmaine Yabsley - Articles published by Body+Soul, Nature & Health, HCF, The Age"></meta>
         </Head>
-        {data.map((i)=> {return i.title})}
-        {/* <Items {...props} data={"articles"}></Items> */}
+        {/* {data.map((i)=> {return i.title})} */}
+        <Items items={data} data={"articles"}></Items> 
       </div>
     </>
   )
