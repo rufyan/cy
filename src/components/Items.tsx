@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import Router from 'next/router'
-import Item from '../components/Item';
+import {Item} from '../components/Item';
 import {useState} from 'react'
 import {IFilters} from '../types/Filters'
 
@@ -151,12 +151,11 @@ console.log('filters', filters)
     }else{
       titles = [];
     }
-    let tags = [];
-    // if(this.props.router && this.props.router.query.title ==='Book'){
-    //   tags = null;
-    // }else{
-    //   tags= this.props.tags;
-    // }
+    let tags:string[] = [];
+    if(router.pathname !== '/books'){
+      //TODO make these unique
+      tags = [...new Set (props.items.map((t) =>t.tags.split(',')))].filter(x => x!='').sort();
+     }
  
     return(
     <>
