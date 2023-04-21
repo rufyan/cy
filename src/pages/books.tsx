@@ -5,7 +5,7 @@ import Items from '../components/Items'
 
      
 export async function getServerSideProps(context:any) {
-  const sheet = await getContent('Article');
+  const sheet = await getContent('Book');
   return {
     props: {
       data: sheet.slice(1, sheet.length), // remove sheet header
@@ -18,14 +18,15 @@ export default function Home({data}) {
   return (
     <>
       <header >
-        <h1>Articles </h1>
+        <h1>Books </h1>
       </header>
       <div className="wide row">
         <Head>
-          <title>Articles by Charmaine Yabsley - Freelance Health Journalist, health writer</title>
-          <meta name="Description" content="Charmaine Yabsley - Articles published by Body+Soul, Nature & Health, HCF, The Age"></meta>
+          <title>Books by Charmaine Yabsley - Freelance Health Journalist, health writer</title>
+          <meta name="Description" content="Charmaine Yabsley - Books"></meta>
         </Head>
-        <Items items={data} data={"articles"}></Items> 
+        {/* {data.map((i)=> {return i.title})} */}
+        <Items items={data} data={"books"}></Items> 
       </div>
     </>
   )

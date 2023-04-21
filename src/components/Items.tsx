@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+import Router from 'next/router'
 import Item from '../components/Item';
 import {useState} from 'react'
 import {IFilters} from '../types/Filters'
@@ -15,33 +17,9 @@ export default function Items(props){
         filterHeight: 0,
         firstLoad : true
       });
-  console.log(filters)
-  // constructor(props){
-  //   super(props)
 
-  //   filters = {
-  //     loading : 'initial',
-  //     filterByTitle : '',
-  //     filterByTag : '',
-  //     sortByDate :'desc',
-  //     type : '',
-  //     filtersVisible : true,
-  //     width: 0, 
-  //     height: 0,
-  //     filterHeight: 0,
-  //     firstLoad : true
-  //   }
-  //   this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-  // }
+  const router = useRouter()
 
-  // componentDidMount() {
-  //   this.updateWindowDimensions();
-  //   window.addEventListener('resize', this.updateWindowDimensions);
-  // }
-
-  // componentWillUnmount() {
-  //   window.removeEventListener('resize', this.updateWindowDimensions);
-  // }
 
   const updateWindowDimensions = () => {
     //TO DO - move filter to it's own component so that height can be set from itself
@@ -63,20 +41,26 @@ export default function Items(props){
   setFilters({...filters, firstLoad : false})
   }
 
-  const handleTitleFilter = (value) => {
+  const handleTitleFilter = (value: string) => {
     let updatedFilters = {
       filterByTitle : '',
       filterByTag : ''
     }
     switch(value){
       case 'all' : case filters.filterByTitle:
+        removeQueryParam('title') 
           break;
       default :
       updatedFilters.filterByTitle = value
-
+      Router.push({
+        query: { title: value }
+      });
       break;
     }
-    setFilters({...filters, ...updatedFilters})
+    console.log(updatedFilters)
+    setFilters({...filters, ...updatedFilters});
+    
+
   }
 
   const handleTagFilter = (value: string) => {
@@ -97,7 +81,7 @@ export default function Items(props){
   const getFilteredItems = () => {
     let filteredItems = props.items;
     //Set item type from page - passed in from links via server.js
-    // let filterbyType = this.props.router ? this.props.router.query.title : null;
+    //let filterbyType = this.props.router ? this.props.router.query.title : null;
     
 
     // //filter by type
@@ -106,14 +90,13 @@ export default function Items(props){
     //     item.gsx$itemtype.$t === filterbyType
     //   ));
     // }
-   
-    // //filter by title
-    // if(this.state.filterByTitle && filterbyType !== 'Book'){
-    //   filteredItems = filteredItems.filter((item) => (
-    //     item.gsx$title.$t === this.state.filterByTitle
-    //     )
-    //   );
-    // }
+    //filter by title
+    if(router?.query?.title!= null && router.pathname !== '/books'){
+      filteredItems = filteredItems.filter((item) => (
+        item.title.toLowerCase() === router?.query?.title?.toLowerCase()
+        )
+      );
+    }
 
     // //filter by tag
     // if(this.props.filterByTag && filterbyType !== 'Book'){
@@ -124,9 +107,9 @@ export default function Items(props){
     // }
    
     // //sort filtered items
-    // filteredItems = filteredItems && filteredItems.sort((a,b) => {
-    //   return new Date(b.gsx$datepublished.$t) - new Date(a.gsx$datepublished.$t);
-    // });
+    filteredItems = filteredItems && filteredItems.sort((a,b) => {
+      return new Date(b.datePublished) - new Date(a.datePublished);
+    });
 
     // //slice if no other filters set
     // if(this.state.filterByTag ==='' && this.state.filterByTitle ===''
@@ -147,19 +130,28 @@ export default function Items(props){
 console.log('filters', filters)
   }
 
+  const removeQueryParam = (param) => {
+    const { pathname, query } = router;
+    const params = new URLSearchParams(query);
+    params.delete(param);
+    router.replace(
+        { pathname, query: params.toString() },
+        undefined, 
+        { shallow: true }
+    );
+};
 
    
     //Only render data once loading is false
     const filteredItems = getFilteredItems();
     //Put title filters in a local var, unless the type is "Book"
-    let titles = [];
-    // if(this.props.router && this.props.router.query.title ==='Book'){
-    //   titles = null;
-    // }else{
-    //   titles= this.props.titles;
-    // }
-
-     let tags = [];
+    let titles:string[] = [];
+    if(router.pathname !== '/books'){
+      titles = [...new Set (props.items.map((t) =>t.title))].filter(x => x!='').sort();
+    }else{
+      titles = [];
+    }
+    let tags = [];
     // if(this.props.router && this.props.router.query.title ==='Book'){
     //   tags = null;
     // }else{
@@ -180,10 +172,10 @@ console.log('filters', filters)
           <p>Titles</p>
           <div className="span-col-4">
             {titles && (titles.map((item, i) =>(
-              <button onClick={() => {this.handleTitleFilter(item)}} key={i} className={item === filters.filterByTitle ? 'active':''}>{item}</button>
+              <button onClick={() => {handleTitleFilter(item)}} key={i} className={item === filters.filterByTitle ? 'active':''}>{item}</button>
             )))}
           </div>
-          <button onClick={() => {this.handleTitleFilter("all")}}  className={`clear-filters ${"all" === filters.filterByTitle ? 'active':''}`}>Show all</button>
+          <button onClick={() => {handleTitleFilter("all")}}  className={`clear-filters ${"all" === filters.filterByTitle ? 'active':''}`}>Show all</button>
           </section>
         )}
         
