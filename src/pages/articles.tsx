@@ -6,11 +6,17 @@ import Items from '../components/Items'
      
 export async function getServerSideProps(context:any) {
   const sheet = await getContent('Article');
-  return {
-    props: {
-      data: sheet.slice(1, sheet.length), // remove sheet header
-    },
+  if (!sheet){
+    return {props:{}};
+  }
+  //TODO - make your mind up
+  let res = {
+    props: {data: {}}
   };
+  
+  res.props.data = sheet && sheet.length > 0 && sheet.slice(1, sheet.length) // remove sheet header
+    
+  return res;
   }
 
 export default function Home({data}) {

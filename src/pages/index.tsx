@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
      
 export async function getServerSideProps(context:any) {
   const sheet = await getCopy('home');
+  console.log(sheet)
   return {
     props: {
       data: sheet.slice(1, sheet.length), // remove sheet header
@@ -28,8 +29,11 @@ export default function Home({data}) {
       <section className="intro-home">
         <h1>Charmaine Yabsley <span>Freelance health journalist</span></h1>
       </section>
-      <article className='copy' dangerouslySetInnerHTML={{__html: data[0].html}}>
-      </article>
+      {
+        data.length > 0 &&
+        <article className='copy' dangerouslySetInnerHTML={{__html: data[0].html}}>
+        </article>
+      }
       {/* <Recently {...props.recent}></Recently> */}
       </main>
     </>
