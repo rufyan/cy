@@ -2,7 +2,7 @@ export interface IItem {
     itemType: string,
     title: string,
     publisher: string,
-    datePublished:string,
+    datePublished: Date,
     heading: string,
     image: string,
     description: string,
