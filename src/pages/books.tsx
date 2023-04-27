@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import {getContent} from './api/sheets'
 import Items from '../components/Items'
 
@@ -25,7 +24,6 @@ export default function Home({data}) {
           <title>Books by Charmaine Yabsley - Freelance Health Journalist, health writer</title>
           <meta name="Description" content="Charmaine Yabsley - Books"></meta>
         </Head>
-        {/* {data.map((i)=> {return i.title})} */}
         <Items items={data} data={"books"}></Items> 
       </div>
     </>

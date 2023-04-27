@@ -20,7 +20,6 @@ export async function getServerSideProps(context:any) {
   }
 
 export default function Home({data}) {
-
   return (
     <>
       <header >
@@ -31,7 +30,12 @@ export default function Home({data}) {
           <title>Articles by Charmaine Yabsley - Freelance Health Journalist, health writer</title>
           <meta name="Description" content="Charmaine Yabsley - Articles published by Body+Soul, Nature & Health, HCF, The Age"></meta>
         </Head>
-        <Items items={data} data={"articles"}></Items> 
+        { data &&
+          <Items items={data} data={"articles"}></Items> 
+          
+        }
+        {!data &&
+          <p>There has been a problem retrieving data</p>}
       </div>
     </>
   )

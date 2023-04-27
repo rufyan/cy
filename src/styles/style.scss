@@ -222,6 +222,15 @@ header {
     transition: color .3s, background .3s, opacity .2s;
     color: $cy_grey;
     border-radius: 16px;
+    cursor: pointer;
+
+    &.inactive {
+      cursor:default;
+      &:hover {
+        background:none;
+        border-color: $cy_offwhite;
+      }
+    }
 
     &:hover {
       background: $cy_offwhite

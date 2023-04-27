@@ -45,7 +45,7 @@ export const getContent = async (itemType: string) : Promise<IItem[]> => {
         link: row[7],
         linkText: row[8],
         isLive: row[9],
-        tags: row[10]																	
+        tags: row[10]													
       }));
       return items.filter(i =>i.itemType==itemType)
   }
