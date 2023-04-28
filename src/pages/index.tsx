@@ -4,7 +4,7 @@ import { pageData } from '@/utilities/data'
 import config from "../../config"
 import {Recently} from "../components/Recently"
      
-export async function getServerSideProps() {
+export async function getStaticProps () {
   const sheet = await getCopy('home');
   return pageData(sheet); 
 }

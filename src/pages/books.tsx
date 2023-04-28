@@ -4,7 +4,7 @@ import Items from '../components/Items'
 import { pageData } from '@/utilities/data';
 
      
-export async function getServerSideProps() {
+export async function getStaticProps () {
   const sheet = await getContent('Book');
   return pageData(sheet);
 }

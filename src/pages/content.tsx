@@ -3,7 +3,7 @@ import Head from 'next/head'
 import {getCopy} from './api/sheets'
 import config from "../../config"
      
-export async function getServerSideProps() {
+export async function getStaticProps () {
   const sheet = await getCopy('content');
   return pageData(sheet); 
 }
