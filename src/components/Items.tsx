@@ -1,11 +1,14 @@
 import { useRouter } from 'next/router';
-import Router from 'next/router'
 import {Item} from '../components/Item';
 import {useState} from 'react'
 import {IFilters} from '../types/Filters'
 import { IItem } from '@/types/Item';
 
-export default function Items(props){
+interface ItemsProps {
+  items: IItem[]
+}
+
+export default function Items(props: ItemsProps){
   const [filters, setFilters] = useState<IFilters>({
         loading : 'initial',
         filterByTitle : '',
@@ -21,7 +24,7 @@ export default function Items(props){
   
 
   const router = useRouter();
-  const showFilters  =router.pathname !== '/books';
+  const showFilters = router.pathname !== '/books';
   const updateWindowDimensions = () => {
     //TO DO - move filter to it's own component so that height can be set from itself
     const updatedFilters = {
@@ -43,32 +46,21 @@ export default function Items(props){
   }
 
   const handleFilter = (value: string, filter: "title" | "tag") => {
-    //TODO - put e.preventDefault in here
-    let updatedFilters = {};
+    let updatedFilters = Object.assign(filters);
 
     switch(filter) {
       case "tag" :
-        updatedFilters = {filterByTag : value }
+        updatedFilters.filterByTag = value;
+        updatedFilters.filterByTitle = '';
         if(value === filters.filterByTitle || value === 'all') {
           removeQueryParam(filter) 
-        } else {  
-          Router.push({
-            query: { tag: value }
-          });
         }
         break;
       case "title" :
-        updatedFilters = {filterByTitle : value };
+        updatedFilters.filterByTitle = value;
+        updatedFilters.filterByTag = '';
         if(value === filters.filterByTag || value === 'all') {
           removeQueryParam(filter) 
-        } else {  
-          Router.push({
-            query: { 
-              title: value,
-              //TODO - include tags in updated query.
-              tags: router.query.tags
-            }
-          });
         }
         break;
     }
@@ -77,22 +69,25 @@ export default function Items(props){
 
 
   const getFilteredItems = () => {
-   
     let filteredItems = props.items;
     //filter by title
-    if(router?.query?.title!= null && showFilters){
-      filteredItems = filteredItems.filter((item: IItem) => (
-        item.title.toLowerCase() === router?.query?.title?.toLowerCase()
-        )
+    if(filters.filterByTitle && filters.filterByTitle != 'all' && showFilters){
+      filteredItems = filteredItems.filter(
+        (item: IItem) => (item.title.toLowerCase() === filters.filterByTitle.toLowerCase())
       );
     }
 
     //filter by tag
-    if(router?.query?.tag!= null && showFilters){
-      filteredItems = filteredItems.filter((item: IItem) => (
-        item.tags.split(',').map((substring: string) => substring.trim()).some((t) => ( t.toLowerCase() === router?.query?.tag?.toLowerCase())
-      ))
-      )
+    if(filters.filterByTag && filters.filterByTag != 'all' && showFilters){
+      filteredItems = filteredItems.filter(
+        (item: IItem) => (
+          item.tags.split(',').map(
+            (substring: string) => substring.trim()
+          ).some(
+            (t) => ( t.toLowerCase() === filters.filterByTag.toLowerCase())
+          )
+        )
+      );
     }
    
     //sort filtered items
@@ -129,22 +124,22 @@ export default function Items(props){
   };
 
    
-    //Only render data once loading is false
-    const unslicedItems = getFilteredItems();
-    const slicedItems = sliceItems(unslicedItems);
-    let titles:string[] = [];
-    let tags:string[] = [];
+  //Only render data once loading is false
+  const unslicedItems = getFilteredItems();
+  const slicedItems = sliceItems(unslicedItems);
+  let titles:string[] = [];
+  let tags:string[] = [];
 
-    titles = showFilters 
-    ? [...new Set (props.items.map((t) =>t.title))].filter(x => x!='').sort()
-    : [];
+  titles = showFilters 
+  ? [...new Set (props.items.map((t) =>t.title))].filter(x => x!='').sort()
+  : [];
+  
+
+  tags = showFilters 
+  ? [...new Set (props.items.map((t: IItem) =>t.tags.split(',').map((substring: string) => substring.trim())).flat())].filter(x => x!='').sort()
+  : [];
     
-
-    tags = showFilters 
-    ? [...new Set (props.items.map((t: IItem) =>t.tags.split(',').map((substring: string) => substring.trim())).flat())].filter(x => x!='').sort()
-    : [];
-     
-    return(
+  return (
     <>
     {
       showFilters
@@ -163,7 +158,7 @@ export default function Items(props){
                   <button onClick={() => {handleFilter(item === filters.filterByTitle ? 'all' : item, 'title')}} key={i} className={item === filters.filterByTitle ? 'active':''}>{item}</button>
                 )))}
               </div>
-              <button onClick={() => {handleFilter("all", 'title')}}  className={`clear-filters ${"all" === filters.filterByTitle ? 'inactive':'active'}`}>Show all</button>
+              <button onClick={() => {handleFilter("all", 'title')}}  className={`clear-filters`}>Show all</button>
               </section>
             )
           }
@@ -177,7 +172,7 @@ export default function Items(props){
                   <button onClick={() => {handleFilter(item === filters.filterByTag ? 'all' : item, 'tag' )}} key={i} className={item === filters.filterByTag ? 'active':''}>{item}</button>
                 )))}
               </div>
-              <button onClick={() => {handleFilter("all", "tag")}}  className={`clear-filters ${filters.filterByTag ? 'inactive':'active'}`}>Show all</button>
+              <button onClick={() => {handleFilter("all", "tag")}}  className={`clear-filters`}>Show all</button>
               </section>
             )
           }
@@ -193,7 +188,7 @@ export default function Items(props){
       {
         unslicedItems.length > 8 && filters.firstLoad &&
         <button onClick={() => {handleShowAll()}} className={`cta ${filters.firstLoad ? '' : 'hide'}`}>Show more</button>
-      }
+    }
     </>
   )
 }
