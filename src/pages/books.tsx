@@ -10,7 +10,6 @@ export async function getStaticProps () {
 }
 
 export default function Home({data}: any) {
-console.log(data)
   return (
     <>
       <header >
