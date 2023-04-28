@@ -1,19 +1,15 @@
 import Head from 'next/head'
-import { Inter } from '@next/font/google'
 import {getCopy} from './api/sheets'
 import { pageData } from '@/utilities/data'
 import config from "../../config"
 import {Recently} from "../components/Recently"
-
-
-const inter = Inter({ subsets: ['latin'] })
      
-export async function getServerSideProps(context:any) {
+export async function getServerSideProps() {
   const sheet = await getCopy('home');
   return pageData(sheet); 
 }
 
-export default function Home({data}) {
+export default function Home({data}: any) {
   return (
     <>
       <Head>

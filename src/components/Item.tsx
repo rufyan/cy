@@ -1,33 +1,33 @@
 import {IItem} from '../types/Item';
+
 interface ItemProps {
   item: IItem
 }
   
-  export const Item: React.FC<ItemProps> = (props: IItem) => {
-
-  const link = props.link.length > 0 
-    ? <a className="link" href={props.link} target="_blank">{props.heading}</a>
-    : props.heading;
-  const tags = props.tags.split(',');
-  const date = props.datePublished && new Date(props.datePublished).getFullYear();
+  export const Item: React.FC<ItemProps> = ({item}: ItemProps) => {
+  const link = item.link.length > 0 
+    ? <a className="link" href={item.link} target="_blank" rel="noreferrer">{item.heading}</a>
+    : item.heading;
+  const tags = item.tags.split(',');
+  const date = item.datePublished && new Date(item.datePublished).getFullYear();
 
   //live images
-  const img = props.image 
-    ? <img src={(props.image.startsWith('http') ? props.image : `/static/${props.image}`)} alt={`${props.heading} - ${props.title}`} />
+  const img = item.image 
+    ? <img src={(item.image.startsWith('http') ? item.image : `/static/${item.image}`)} alt={`${item.heading} - ${item.title}`} />
     : '';
-  const linkimg = props.link.length > 0 
-    ? <a className="link" href={props.link} target="_blank">{img} </a> 
+  const linkimg = item.link.length > 0 
+    ? <a className="link" href={item.link} target="_blank" rel="noreferrer">{img} </a> 
     : img;  
 
   return (
-    <article key={props.id}>
+    <article>
       <div className="image-holder">
       {linkimg}
       </div>
       <div className="details">
       <h2>{link}</h2>
 
-      <h3>{props.title} <time>{date}</time></h3>
+      <h3>{item.title} <time>{date}</time></h3>
       {tags && tags.length && 
         <div className="tags">
           {tags.map((t, i) => (
@@ -40,7 +40,7 @@ interface ItemProps {
           }
         </div>
       }
-      <p>{props.description}</p>
+      <p>{item.description}</p>
 
       </div>
     </article>

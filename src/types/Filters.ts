@@ -1,7 +1,7 @@
 export interface IFilters {
     loading? : string,
-    filterByTitle? : string,
-    filterByTag? : string,
+    filterByTitle : string,
+    filterByTag : string,
     sortByDate? :string,
     type? : string,
     filtersVisible? : boolean,

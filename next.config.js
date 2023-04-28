@@ -12,15 +12,6 @@ const nextConfig = {
 
     return config
   },
-  future: {
-    webpack5: true,
-  },
-  fallback: {
-    fs: false,
-    tls: false,
-    net: false,
-    child_process: false
-  },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
