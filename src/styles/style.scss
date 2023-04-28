@@ -150,6 +150,10 @@ button {
   font-family: $body-font;
   text-align: center;
 
+  &:hover {
+    cursor:pointer
+  }
+
   &.cta{
     border:0;
     margin: 0 auto;

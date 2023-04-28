@@ -25,21 +25,6 @@ export default function Items(props: ItemsProps){
 
   const router = useRouter();
   const showFilters = router.pathname !== '/books';
-  const updateWindowDimensions = () => {
-    //TO DO - move filter to it's own component so that height can be set from itself
-    const updatedFilters = {
-      filtersVisible: window.innerWidth < 1140 ? false : true,
-      // filterHeight: this.props.tags.length + this.props.titles.length * (window.innerWidth > 1140 ? 
-      //   23 
-      //   : (window.innerWidth > 800 ?
-      //    35 
-      //    : 46)),
-      width: window.innerWidth, 
-      height: window.innerHeight
-        }
-
-    setFilters({...filters, ...updatedFilters});
-  }
 
   const handleShowAll = () =>{
     setFilters({...filters, firstLoad : false})
@@ -145,9 +130,7 @@ export default function Items(props: ItemsProps){
       showFilters
       && <>
         <button onClick={() => {showHideFilter(filters.filtersVisible as boolean)}} className={`cta show-filters ${filters.filtersVisible ? "hide-filters" : ""}`}>Filters</button> 
-        <div className={`filter-holder ${filters.filtersVisible ? "" : "hide"}`} 
-        // style={{height:filters.filterHeight+'px'}}
-        >
+        <div className={`filter-holder ${filters.filtersVisible ? "" : "hide"}`}>
           {
             titles  &&
             (
