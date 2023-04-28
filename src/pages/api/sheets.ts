@@ -24,17 +24,17 @@ const getSheets = async (sheet: string) => {
 
 export const getCopy = async (page: string) => {
   const rows =  await getSheets('Copy');
-  const content = rows.map((row) => ({
+  const content = rows.map((row: any) => ({
     page: row[0],
     html: row[1]
   }));
-  return content.filter(r=>r.page=page)
+  return content.filter((r: any) => r.page=page)
 }
 
 export const getContent = async (itemType: string) : Promise<IItem[]> => {
   const rows =  await getSheets('Work');
   if (rows.length) {
-      const items= rows.map((row) => ({
+      const items= rows.map((row: any) => ({
         itemType: row[0],
         title: row[1],
         publisher: row[2],
@@ -47,7 +47,7 @@ export const getContent = async (itemType: string) : Promise<IItem[]> => {
         isLive: row[9],
         tags: row[10]													
       }));
-      return items.filter(i =>i.itemType==itemType)
+      return items.filter((i:IItem) => i.itemType==itemType)
   }
   return [];
 }

@@ -1,23 +1,13 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import {getContent} from './api/sheets'
 import Items from '../components/Items'
+import { pageData } from '@/utilities/data';
 
      
 export async function getServerSideProps(context:any) {
   const sheet = await getContent('Article');
-  if (!sheet){
-    return {props:{}};
-  }
-  //TODO - make your mind up
-  let res = {
-    props: {data: {}}
-  };
-  
-  res.props.data = sheet && sheet.length > 0 && sheet.slice(1, sheet.length) // remove sheet header
-    
-  return res;
-  }
+  return pageData(sheet);
+}
 
 export default function Home({data}) {
   return (
@@ -30,12 +20,13 @@ export default function Home({data}) {
           <title>Articles by Charmaine Yabsley - Freelance Health Journalist, health writer</title>
           <meta name="Description" content="Charmaine Yabsley - Articles published by Body+Soul, Nature & Health, HCF, The Age"></meta>
         </Head>
-        { data &&
-          <Items items={data} data={"articles"}></Items> 
-          
+        { data.content &&
+          <Items items={data.content} data={"articles"}></Items> 
         }
-        {!data &&
-          <p>There has been a problem retrieving data</p>}
+        {
+          data.errorMessage &&
+          <p>{data.errorMessage}</p>
+        } 
       </div>
     </>
   )

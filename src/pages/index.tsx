@@ -1,39 +1,41 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import {getCopy} from './api/sheets'
+import { pageData } from '@/utilities/data'
+import config from "../../config"
+import {Recently} from "../components/Recently"
 
 
 const inter = Inter({ subsets: ['latin'] })
      
 export async function getServerSideProps(context:any) {
   const sheet = await getCopy('home');
-  return {
-    props: {
-      data: sheet.slice(1, sheet.length), // remove sheet header
-    },
-  };
-  }
+  return pageData(sheet); 
+}
 
 export default function Home({data}) {
-
   return (
     <>
-           <Head>
+      <Head>
         <title>Charmaine Yabsley - Freelance Health Journalist</title>
         <meta name="Description" content="Charmaine Yabsley - Media Consultant, Writer, Health Journalist"></meta>
       </Head>
 
       <main className="wide row home">
-      <section className="intro-home">
-        <h1>Charmaine Yabsley <span>Freelance health journalist</span></h1>
-      </section>
-      {
-        data.length > 0 &&
-        <article className='copy' dangerouslySetInnerHTML={{__html: data[0].html}}>
-        </article>
-      }
-      {/* <Recently {...props.recent}></Recently> */}
+        <section className="intro-home">
+          <h1>Charmaine Yabsley <span>Freelance health journalist</span></h1>
+        </section>
+        {
+          data.content &&
+          <article className='copy' dangerouslySetInnerHTML={{__html: data.content[0].html}}>
+          </article>
+        }
+        {
+          !data.content &&
+          <article className='copy' dangerouslySetInnerHTML={{__html: config.fallback.home}}>
+          </article>
+        }
+        {<Recently></Recently> }
       </main>
     </>
   )
