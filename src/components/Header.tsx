@@ -1,10 +1,10 @@
-import Link from 'next/link'
-import {useState} from 'react'
+import Link from 'next/link';
+import {useState} from 'react';
 
 export default function Header(){ 
 
   const [mobileClicked, setMobileClicked] = useState(false);
-  const handleMobilemenuClick = () => {
+  const handleMobilemenuClick = (mobileClicked: boolean) => {
     setMobileClicked(mobileClicked ? false : true)
   }
 

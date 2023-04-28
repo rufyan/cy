@@ -4,12 +4,12 @@ import Items from '../components/Items'
 import { pageData } from '@/utilities/data';
 
      
-export async function getServerSideProps(context:any) {
+export async function getServerSideProps() {
   const sheet = await getContent('Article');
   return pageData(sheet);
 }
 
-export default function Home({data}) {
+export default function Home({data}:any) {
   return (
     <>
       <header >
@@ -21,7 +21,7 @@ export default function Home({data}) {
           <meta name="Description" content="Charmaine Yabsley - Articles published by Body+Soul, Nature & Health, HCF, The Age"></meta>
         </Head>
         { data.content &&
-          <Items items={data.content} data={"articles"}></Items> 
+          <Items items={data.content}></Items> 
         }
         {
           data.errorMessage &&

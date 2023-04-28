@@ -31,22 +31,22 @@ export default function Items(props: ItemsProps){
   }
 
   const handleFilter = (value: string, filter: "title" | "tag") => {
-    let updatedFilters = Object.assign(filters);
+    const updatedFilters = Object.assign(filters);
 
     switch(filter) {
       case "tag" :
         updatedFilters.filterByTag = value;
         updatedFilters.filterByTitle = '';
-        if(value === filters.filterByTitle || value === 'all') {
-          removeQueryParam(filter) 
-        }
+        // if(value === filters.filterByTitle || value === 'all') {
+        //   removeQueryParam(filter) 
+        // }
         break;
       case "title" :
         updatedFilters.filterByTitle = value;
         updatedFilters.filterByTag = '';
-        if(value === filters.filterByTag || value === 'all') {
-          removeQueryParam(filter) 
-        }
+        // if(value === filters.filterByTag || value === 'all') {
+        //   removeQueryParam(filter) 
+        // }
         break;
     }
     setFilters({...filters, ...updatedFilters});
@@ -58,7 +58,7 @@ export default function Items(props: ItemsProps){
     //filter by title
     if(filters.filterByTitle && filters.filterByTitle != 'all' && showFilters){
       filteredItems = filteredItems.filter(
-        (item: IItem) => (item.title.toLowerCase() === filters.filterByTitle.toLowerCase())
+        (item: IItem) => (item.title.toLowerCase() ===  filters?.filterByTitle.toLowerCase())
       );
     }
 
@@ -69,15 +69,15 @@ export default function Items(props: ItemsProps){
           item.tags.split(',').map(
             (substring: string) => substring.trim()
           ).some(
-            (t) => ( t.toLowerCase() === filters.filterByTag.toLowerCase())
+            (t) => ( t.toLowerCase() === filters?.filterByTag.toLowerCase())
           )
         )
       );
     }
    
     //sort filtered items
-    filteredItems = filteredItems && filteredItems.sort((a: IItem, b: IItem) => {
-      return new Date(b.datePublished) > new Date(a.datePublished);
+    filteredItems = filteredItems && filteredItems.sort((a, b) => {
+      return new Date(b.datePublished).getTime() - new Date(a.datePublished).getTime();
     });
 
     return filteredItems;
@@ -90,23 +90,22 @@ export default function Items(props: ItemsProps){
   }
 
 
-  const showHideFilter = (show: boolean) =>{
-    let updatedFilters: IFilters = {
-     filtersVisible : show ? false: true,
-    };
+  const showHideFilter = (show: boolean) => {
+    const updatedFilters = Object.assign(filters)
+    updatedFilters.filtersVisible = show ? false: true;
     setFilters({...filters, ...updatedFilters})
   }
 
-  const removeQueryParam = (param: string) => {
-    const { pathname, query } = router;
-    const params = new URLSearchParams(query);
-    params.delete(param);
-    router.replace(
-        { pathname, query: params.toString() },
-        undefined, 
-        { shallow: true }
-    );
-  };
+  // const removeQueryParam = (param: string) => {
+  //   const { pathname, query } = router;
+  //   const params = new URLSearchParams(query);
+  //   params.delete(param);
+  //   router.replace(
+  //       { pathname, query: params.toString() },
+  //       undefined, 
+  //       { shallow: true }
+  //   );
+  // };
 
    
   //Only render data once loading is false
@@ -116,7 +115,7 @@ export default function Items(props: ItemsProps){
   let tags:string[] = [];
 
   titles = showFilters 
-  ? [...new Set (props.items.map((t) =>t.title))].filter(x => x!='').sort()
+  ?  Array.from([...new Set (props.items.map((t) =>t.title))]).filter(x => x!='')
   : [];
   
 
@@ -164,7 +163,7 @@ export default function Items(props: ItemsProps){
       }
       <section className="grid items">
         {slicedItems && slicedItems.map((item: IItem, i: number) =>  (
-          <Item {...item} key={i}></Item>
+          <Item item={item} key={i}></Item>
           )
         )}
       </section>

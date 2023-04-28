@@ -24,17 +24,17 @@ const getSheets = async (sheet: string) => {
 
 export const getCopy = async (page: string) => {
   const rows =  await getSheets('Copy');
-  const content = rows.map((row: any) => ({
+  const content = rows && rows.map((row) => ({
     page: row[0],
     html: row[1]
   }));
-  return content.filter((r: any) => r.page=page)
+  return content && content.filter((r) => r.page=page)
 }
 
 export const getContent = async (itemType: string) : Promise<IItem[]> => {
   const rows =  await getSheets('Work');
-  if (rows.length) {
-      const items= rows.map((row: any) => ({
+  if (rows && rows.length) {
+      const items= rows.map((row) => ({
         itemType: row[0],
         title: row[1],
         publisher: row[2],
